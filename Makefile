@@ -1,5 +1,5 @@
 NAME 		= cub3D
-CFLAGS		= -Wall -Wextra -Werror
+# CFLAGS		= -Wall -Wextra -Werror
 INCLUDES	= includes
 mlx_LIB 	= -lmlx -framework OpenGL -framework AppKit
 SOURCES 	= srcs/main.c\
