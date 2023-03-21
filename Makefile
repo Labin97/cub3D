@@ -3,6 +3,8 @@ NAME 		= cub3D
 INCLUDES	= includes
 mlx_LIB 	= -lmlx -framework OpenGL -framework AppKit
 SOURCES 	= srcs/main.c\
+			srcs/init_mapfile.c\
+			srcs/error.c
 
 OBJECTS = $(SOURCES:.c=.o)
 
@@ -10,10 +12,10 @@ all : $(NAME)
 
 $(NAME) : $(OBJECTS)
 	make -C libft
-	cc $^ -Llibft -lft $(mlx_LIB) -o $@
+	cc $^ -Llibft -lft -o $@
 
 %.o : %.c
-	cc $(CFLAGS) -Ilibft/includes $(mlx_LIB) -I$(INCLUDES) -c $^ -o $@
+	cc $(CFLAGS) -Ilibft/includes -I$(INCLUDES) -c $^ -o $@
 
 clean :
 	make clean -C libft
