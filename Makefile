@@ -4,7 +4,9 @@ INCLUDES	= includes
 mlx_LIB 	= -lmlx -framework OpenGL -framework AppKit
 SOURCES 	= srcs/main.c\
 			srcs/init_mapfile.c\
-			srcs/error.c
+			srcs/error.c\
+			srcs/map_parsing.c\
+			srcs/init_mapfile2.c
 
 OBJECTS = $(SOURCES:.c=.o)
 
