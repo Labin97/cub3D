@@ -6,7 +6,7 @@
 /*   By: yim <yim@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/21 13:48:37 by yim               #+#    #+#             */
-/*   Updated: 2023/03/21 19:53:28 by yim              ###   ########.fr       */
+/*   Updated: 2023/03/22 12:28:50 by yim              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ int	skip_space(char *line, char **tmp)
 		line++;
 	// fd = open(line, O_RDONLY);
 	// if (fd < 0)
-	// 	exit_error("texture open error", 1);
+	// 	exit_line_error("texture open error", 1, line);
 	// else
 	// 	close(fd);
 	*tmp = ft_strdup(line);
@@ -62,7 +62,7 @@ void	check_digit(char *line)
 	i = 0;
 	comma = 0;
 	if (!ft_isdigit(line[0]))
-		exit_error("color digit error", 1);
+		exit_line_error("color digit error", 1, line);
 	while (line[i])
 	{
 		if (line[i] == ',')
@@ -73,11 +73,11 @@ void	check_digit(char *line)
 				i++;
 		}
 		if (!ft_isdigit(line[i]))
-			exit_error("color digit error", 1);
+			exit_line_error("color digit error", 1, line);
 		i++;
 	}
 	if (comma != 2)
-		exit_error("color num error", 1);
+		exit_line_error("color num error", 1, line);
 }
 
 int	get_color(char **line)
@@ -109,7 +109,7 @@ void	init_color(t_map *map, char *line, char c)
 	g = get_color(&line);
 	b = get_color(&line);
 	if (r >= 256 || r < 0 || g >= 256 || g < 0 || b >= 256 || b < 0)
-		exit_error("color range error", 1);
+		exit_line_error("color range error", 1, line);
 	if (c == 'F')
 		map->floor = (r << 16 | g << 8 | b);
 	if (c == 'C')

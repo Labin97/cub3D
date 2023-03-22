@@ -6,7 +6,7 @@
 /*   By: yim <yim@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/21 17:00:24 by yim               #+#    #+#             */
-/*   Updated: 2023/03/21 19:56:29 by yim              ###   ########.fr       */
+/*   Updated: 2023/03/22 12:30:28 by yim              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,12 +55,11 @@ void	init_mapfile(t_map *map, char *line, int count)
 	{
 		if (!map->no_path || !map->so_path || !map->we_path || !map->ea_path
 			|| (map->floor == -1) || (map->ceiling == -1))
-			exit_error("something wrong before map", 1);
+			exit_line_error("something wrong before map", 1, line);
 		init_map(map, line, count);
 	}
 }
 
-//exit_error에서  free line해줘야할 거 생각해서 다시 만들어
 void	map_parsing(char *filename, t_map *map)
 {
 	char	*line;
