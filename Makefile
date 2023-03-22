@@ -3,10 +3,10 @@ NAME 		= cub3D
 INCLUDES	= includes
 mlx_LIB 	= -lmlx -framework OpenGL -framework AppKit
 SOURCES 	= srcs/main.c\
-			srcs/init_mapfile.c\
+			srcs/init_color_texture.c\
 			srcs/error.c\
 			srcs/map_parsing.c\
-			srcs/init_mapfile2.c
+			srcs/init_map.c
 
 OBJECTS = $(SOURCES:.c=.o)
 

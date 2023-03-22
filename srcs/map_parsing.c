@@ -6,7 +6,7 @@
 /*   By: yim <yim@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/21 17:00:24 by yim               #+#    #+#             */
-/*   Updated: 2023/03/22 12:30:28 by yim              ###   ########.fr       */
+/*   Updated: 2023/03/22 15:21:25 by yim              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,8 @@ void	init_t_map(t_map *map)
 
 void	print_struct(t_map *map)
 {
+	int	i;
+
 	printf("NO path = %s\n", map->no_path);
 	printf("SO path = %s\n", map->so_path);
 	printf("WE path = %s\n", map->we_path);
@@ -29,14 +31,23 @@ void	print_struct(t_map *map)
 	printf("floor = %d\n", map->floor);
 	printf("height = %d\n", map->height);
 	printf("width = %d\n", map->width);
+	printf("start = %d\n", map->start);
+	i = 0;
+	while (map->map[i])
+	{
+		printf("map = %s\n", map->map[i]);
+		i++;
+	}
 }
 
-void	check_map(t_map *map, int count)
+void	check_map(t_map *map, int count, char *filename)
 {
 	if (map->check_player == 0)
-		exit_error("player error", 1);
+		exit_error("player error", 1, map);
 	if (map->height != count - map->start)
-		exit_error("map line blank", 1);
+		exit_error("map line blank error", 1, map);
+	make_map(map, filename);
+	check_surround_wall(map);
 }
 
 void	init_mapfile(t_map *map, char *line, int count)
@@ -55,9 +66,20 @@ void	init_mapfile(t_map *map, char *line, int count)
 	{
 		if (!map->no_path || !map->so_path || !map->we_path || !map->ea_path
 			|| (map->floor == -1) || (map->ceiling == -1))
-			exit_line_error("something wrong before map", 1, line);
+			exit_line_error("something wrong before map", 1, line, map);
 		init_map(map, line, count);
 	}
+}
+
+void	check_filename(char *filename, t_map *map)
+{
+	char	*str;
+
+	str = ft_strrchr(filename, '.');
+	if (!str)
+		exit_error("filename error", 1, map);
+	if (ft_strcmp(str, ".cub"))
+		exit_error("filename error", 1, map);
 }
 
 void	map_parsing(char *filename, t_map *map)
@@ -67,24 +89,22 @@ void	map_parsing(char *filename, t_map *map)
 	int		count;
 
 	init_t_map(map);
+	check_filename(filename, map);
 	fd = open(filename, O_RDONLY);
 	if (fd < 0)
-		exit_error("file open error\n", 1);
+		exit_error("file open error", 1, map);
 	count = 0;
 	while (1)
 	{
 		line = get_next_line(fd);
 		if (line == NULL)
-		{
-			free(line);
 			break ;
-		}
 		line[ft_strlen(line) - 1] = '\0';
 		init_mapfile(map, line, count);
 		count++;
 		free(line);
 	}
-	check_map(map, count);
+	check_map(map, count, filename);
 	print_struct(map);
 	close(fd);
 }

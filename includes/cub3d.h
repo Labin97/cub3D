@@ -6,7 +6,7 @@
 /*   By: yim <yim@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/20 14:53:12 by yim               #+#    #+#             */
-/*   Updated: 2023/03/21 19:28:16 by yim              ###   ########.fr       */
+/*   Updated: 2023/03/22 14:13:52 by yim              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,31 +22,38 @@
 
 typedef struct s_map
 {
+	int		width;
+	int		height;
 	int		floor;
 	int		ceiling;
-	int		height;
-	int		check_player;
-	int		width;
 	int		start;
+	int		check_player;
 	char	*no_path;
 	char	*so_path;
 	char	*we_path;
 	char	*ea_path;
+	char	**map;
 }	t_map;
 
 // error
 int		print_error(char *str, int i);
-void	exit_error(char *str, int i);
+void	exit_error(char *str, int i, t_map *map);
+void	exit_line_error(char *str, int i, char *line, t_map *map);
+void	free_all(t_map *map);
 
 //map_parsing
 void	map_parsing(char *filename, t_map *map);
 
-// init_mapfile
+// init_color_texture
 void	init_texture(t_map *map, char *line);
-int		skip_space(char *line, char **tmp);
+int		skip_space(char *line, char **tmp, t_map *map);
 void	init_color(t_map *map, char *line, char c);
-void	check_digit(char *line);
+void	check_digit(char *line, t_map *map);
 int		get_color(char **line);
+
+// init_map
 void	init_map(t_map *map, char *line, int count);
+void	make_map(t_map *map, char *filename);
+void	check_surround_wall(t_map *map);
 
 #endif
