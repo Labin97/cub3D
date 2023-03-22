@@ -6,7 +6,7 @@
 /*   By: yim <yim@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/21 17:00:24 by yim               #+#    #+#             */
-/*   Updated: 2023/03/22 17:16:15 by yim              ###   ########.fr       */
+/*   Updated: 2023/03/22 17:29:07y yim              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,8 +44,8 @@ void	check_map(t_map *map, int count, char *filename)
 {
 	if (map->check_player == 0)
 		exit_error("player error", 1, map);
-	if (map->height != count - map->start)
-		exit_error("map line blank error", 1, map);
+	// if (map->height != count - map->start)
+	// 	exit_error("map line blank error", 1, map);
 	make_map(map, filename);
 	check_surround_wall(map);
 }
