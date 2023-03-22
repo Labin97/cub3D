@@ -6,37 +6,12 @@
 /*   By: yim <yim@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/21 16:59:58 by yim               #+#    #+#             */
-/*   Updated: 2023/03/22 15:09:39 by yim              ###   ########.fr       */
+/*   Updated: 2023/03/22 17:16:05 by yim              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
-void	init_map(t_map *map, char *line, int count)
-{
-	int	i;
-
-	i = 0;
-	while (line[i])
-	{
-		if (line[i] != '\n' && line[i] != '1' && line[i] != '0' && \
-			line[i] != ' ' && line[i] != 'N' && line[i] != 'S' && \
-			line[i] != 'E' && line[i] != 'W')
-			exit_line_error("map error", 1, line, map);
-		if ((line[i] == 'N' || line[i] == 'S' || line[i] == 'E' && \
-			line[i] == 'W' ) && map->check_player == 1)
-			exit_line_error("map error", 1, line, map);
-		if (line[i] == 'N' || line[i] == 'S' || line[i] == 'E' && \
-			line[i] == 'W')
-			map->check_player = 1;
-		i++;
-	}
-	if (map->width < i)
-		map->width = i;
-	map->height++;
-	if (map->start == 0)
-		map->start = count;
-}
 
 void	make_map2(t_map *map, char *filename, int fd)
 {
@@ -95,7 +70,7 @@ void	check_surround_wall2(t_map *map)
 			{
 				if (i == 0 || j == 0)
 					exit_error("surround wall error", 1, map);
-				else if (i == map->height || map->map[i][j + 1] == '\0')
+				else if (i == map->height - 1 || map->map[i][j + 1] == '\0')
 					exit_error("surround wall error", 1, map);
 				else if (map->map[i][j - 1] == ' ' || map->map[i][j + 1] == ' ')
 					exit_error("surround wall error", 1, map);
@@ -123,7 +98,7 @@ void	check_surround_wall(t_map *map)
 			{
 				if (i == 0 || j == 0)
 					exit_error("surround wall error", 1, map);
-				else if (i == map->height || map->map[i][j + 1] == '\0')
+				else if (i == map->height - 1 || map->map[i][j + 1] == '\0')
 					exit_error("surround wall error", 1, map);
 				else if (map->map[i][j - 1] == ' ' || map->map[i][j + 1] == ' ')
 					exit_error("surround wall error", 1, map);
@@ -137,3 +112,28 @@ void	check_surround_wall(t_map *map)
 	check_surround_wall2(map);
 }
 
+void	init_map(t_map *map, char *line, int count)
+{
+	int	i;
+
+	i = 0;
+	while (line[i])
+	{
+		if (line[i] != '1' && line[i] != '0' && \
+			line[i] != ' ' && line[i] != 'N' && line[i] != 'S' && \
+			line[i] != 'E' && line[i] != 'W')
+			exit_line_error("map error", 1, line, map);
+		if ((line[i] == 'N' || line[i] == 'S' || line[i] == 'E' && \
+			line[i] == 'W' ) && map->check_player == 1)
+			exit_line_error("map error", 1, line, map);
+		if (line[i] == 'N' || line[i] == 'S' || line[i] == 'E' && \
+			line[i] == 'W')
+			map->check_player = 1;
+		i++;
+	}
+	if (map->width < i)
+		map->width = i;
+	map->height++;
+	if (map->start == 0)
+		map->start = count;
+}

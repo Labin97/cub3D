@@ -6,7 +6,7 @@
 /*   By: yim <yim@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/20 14:53:12 by yim               #+#    #+#             */
-/*   Updated: 2023/03/22 14:13:52 by yim              ###   ########.fr       */
+/*   Updated: 2023/03/22 16:27:18 by yim              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,12 +44,11 @@ void	free_all(t_map *map);
 //map_parsing
 void	map_parsing(char *filename, t_map *map);
 
-// init_color_texture
+// init_texture
 void	init_texture(t_map *map, char *line);
-int		skip_space(char *line, char **tmp, t_map *map);
+
+// init_color
 void	init_color(t_map *map, char *line, char c);
-void	check_digit(char *line, t_map *map);
-int		get_color(char **line);
 
 // init_map
 void	init_map(t_map *map, char *line, int count);

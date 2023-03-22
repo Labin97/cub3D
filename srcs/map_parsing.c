@@ -6,7 +6,7 @@
 /*   By: yim <yim@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/21 17:00:24 by yim               #+#    #+#             */
-/*   Updated: 2023/03/22 15:21:25 by yim              ###   ########.fr       */
+/*   Updated: 2023/03/22 17:16:15 by yim              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,17 +57,22 @@ void	init_mapfile(t_map *map, char *line, int count)
 	if (!ft_strncmp(line, "NO ", 3) || !ft_strncmp(line, "SO ", 3) || \
 		!ft_strncmp(line, "WE ", 3) || !ft_strncmp(line, "EA ", 3))
 		init_texture(map, line);
-	if (!ft_strncmp(line, "F ", 2) || !ft_strncmp(line, "C ", 2))
+	else if (!ft_strncmp(line, "F ", 2) || !ft_strncmp(line, "C ", 2))
 		init_color(map, line, line[0]);
-	i = 0;
-	while (line[i] == ' ')
-		i++;
-	if (line[i] == '0' || line[i] == '1')
+	else
 	{
-		if (!map->no_path || !map->so_path || !map->we_path || !map->ea_path
-			|| (map->floor == -1) || (map->ceiling == -1))
-			exit_line_error("something wrong before map", 1, line, map);
-		init_map(map, line, count);
+		i = 0;
+		while (line[i] == ' ')
+			i++;
+		if (line[i] == '0' || line[i] == '1')
+		{
+			if (!map->no_path || !map->so_path || !map->we_path || !map->ea_path
+				|| (map->floor == -1) || (map->ceiling == -1))
+				exit_line_error("something wrong before map", 1, line, map);
+			init_map(map, line, count);
+		}
+		else if (line[i] != '\0')
+			exit_line_error("something wrong in map", 1, line, map);
 	}
 }
 
@@ -91,7 +96,7 @@ void	map_parsing(char *filename, t_map *map)
 	init_t_map(map);
 	check_filename(filename, map);
 	fd = open(filename, O_RDONLY);
-	if (fd < 0)
+	if (fd < 0 || read(fd, NULL, 0) < 0)
 		exit_error("file open error", 1, map);
 	count = 0;
 	while (1)
@@ -99,7 +104,8 @@ void	map_parsing(char *filename, t_map *map)
 		line = get_next_line(fd);
 		if (line == NULL)
 			break ;
-		line[ft_strlen(line) - 1] = '\0';
+		if (line[ft_strlen(line) - 1] == '\n')
+			line[ft_strlen(line) - 1] = '\0';
 		init_mapfile(map, line, count);
 		count++;
 		free(line);
