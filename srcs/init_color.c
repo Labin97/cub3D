@@ -1,36 +1,36 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   init_color_texture.c                               :+:      :+:    :+:   */
+/*   init_color.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: yim <yim@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/21 13:48:37 by yim               #+#    #+#             */
-/*   Updated: 2023/03/22 16:23:28 by yim              ###   ########.fr       */
+/*   Updated: 2023/03/23 14:15:16 by yim              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
-void	check_digit(char *line, t_map *map)
+void	check_digit(char *current, char *line, t_map *map)
 {
 	int	i;
 	int	comma;
 
 	i = 0;
 	comma = 0;
-	if (!ft_isdigit(line[0]))
+	if (!ft_isdigit(current[0]))
 		exit_line_error("color digit error", 1, line, map);
-	while (line[i])
+	while (current[i])
 	{
-		if (line[i] == ',')
+		if (current[i] == ',')
 		{
 			i++;
 			comma++;
-			while (line[i] == ' ')
+			while (current[i] == ' ')
 				i++;
 		}
-		if (!ft_isdigit(line[i]))
+		if (!ft_isdigit(current[i]))
 			exit_line_error("color digit error", 1, line, map);
 		i++;
 	}
@@ -66,7 +66,7 @@ void	init_color(t_map *map, char *line, char c)
 	current += 1;
 	while (*current == ' ')
 		current++;
-	check_digit(current, map);
+	check_digit(current, line, map);
 	r = get_color(&current);
 	g = get_color(&current);
 	b = get_color(&current);
