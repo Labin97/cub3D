@@ -42,11 +42,19 @@ void	print_struct(t_map *map)
 
 void	check_map(t_map *map, int count, char *filename)
 {
+	int	fd;
+
 	if (map->check_player == 0)
 		exit_error("player error", 1, map);
-	// if (map->height != count - map->start)
-	// 	exit_error("map line blank error", 1, map);
-	make_map(map, filename);
+	map->map = (char **)malloc(sizeof(char *) * (map->height + 1));
+	if (!(map->map))
+		exit_error("malloc error", 1, map);
+	ft_memset(map->map, 0, sizeof(char *) * (map->height + 1));
+	fd = open(filename, O_RDONLY);
+	if (fd < 0)
+		exit_error("file open error", 1, map);
+	make_map(map, filename, fd);
+	close(fd);
 	check_surround_wall(map);
 }
 

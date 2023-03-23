@@ -6,7 +6,7 @@
 /*   By: yim <yim@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/20 14:53:12 by yim               #+#    #+#             */
-/*   Updated: 2023/03/22 16:27:18 by yim              ###   ########.fr       */
+/*   Updated: 2023/03/23 13:42:16 by yim              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ void	init_color(t_map *map, char *line, char c);
 
 // init_map
 void	init_map(t_map *map, char *line, int count);
-void	make_map(t_map *map, char *filename);
+void	make_map(t_map *map, char *filename, int fd);
 void	check_surround_wall(t_map *map);
 
 #endif

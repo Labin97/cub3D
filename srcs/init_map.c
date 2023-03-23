@@ -6,13 +6,25 @@
 /*   By: yim <yim@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/21 16:59:58 by yim               #+#    #+#             */
-/*   Updated: 2023/03/22 19:13:10 by yim              ###   ########.fr       */
+/*   Updated: 2023/03/23 13:54:17 by yim              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
-void	make_map2(t_map *map, char *filename, int fd)
+int	check_blank_line(char *line)
+{
+	int	i;
+
+	i = 0;
+	while (line[i] == ' ')
+		i++;
+	if (line[i] != '0' && line[i] != '1')
+		return (1);
+	return (0);
+}
+
+void	make_map(t_map *map, char *filename, int fd)
 {
 	char	*line;
 	int		count;
@@ -26,8 +38,10 @@ void	make_map2(t_map *map, char *filename, int fd)
 		if (line == NULL)
 			break ;
 		line[ft_strlen(line) - 1] = '\0';
-		if (count >= map->start)
+		if (count >= map->start && map->height > i)
 		{
+			if (check_blank_line(line))
+				exit_line_error("line blank error", 1, line, map);
 			map->map[i] = ft_strdup(line);
 			if (map->map[i] == NULL)
 				exit_line_error("malloc error", 1, line, map);
@@ -36,21 +50,6 @@ void	make_map2(t_map *map, char *filename, int fd)
 		count++;
 		free(line);
 	}
-}
-
-void	make_map(t_map *map, char *filename)
-{
-	int		fd;
-
-	map->map = (char **)malloc(sizeof(char *) * (map->height + 1));
-	if (!(map->map))
-		exit_error("malloc error", 1, map);
-	ft_memset(map->map, 0, sizeof(char *) * (map->height + 1));
-	fd = open(filename, O_RDONLY);
-	if (fd < 0)
-		exit_error("file open error", 1, map);
-	make_map2(map, filename, fd);
-	close(fd);
 }
 
 void	check_surround_wall2(t_map *map)

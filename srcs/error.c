@@ -6,7 +6,7 @@
 /*   By: yim <yim@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/21 13:46:42 by yim               #+#    #+#             */
-/*   Updated: 2023/03/22 16:09:37 by yim              ###   ########.fr       */
+/*   Updated: 2023/03/23 14:08:00 by yim              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,8 +29,8 @@ void	exit_error(char *str, int i, t_map *map)
 
 void	exit_line_error(char *str, int i, char *line, t_map *map)
 {
-	if (line)
-		free (line);
+	// if (line)
+	// 	free (line);
 	printf("Error\n");
 	printf("%s\n", str);
 	free_all(map);
