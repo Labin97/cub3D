@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init_map.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yim <yim@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: yim <yim@student.42seoul.kr>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/21 16:59:58 by yim               #+#    #+#             */
-/*   Updated: 2023/03/23 13:54:17 by yim              ###   ########.fr       */
+/*   Updated: 2023/03/24 17:19:55 by yim              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,8 @@ void	make_map(t_map *map, char *filename, int fd)
 		line = get_next_line(fd);
 		if (line == NULL)
 			break ;
-		line[ft_strlen(line) - 1] = '\0';
+		if (line[ft_strlen(line) - 1] == '\n')
+			line[ft_strlen(line) - 1] = '\0';
 		if (count >= map->start && map->height > i)
 		{
 			if (check_blank_line(line))
