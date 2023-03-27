@@ -7,7 +7,8 @@ SOURCES 	= srcs/main.c\
 			srcs/init_texture.c\
 			srcs/error.c\
 			srcs/map_parsing.c\
-			srcs/init_map.c
+			srcs/init_map.c\
+			srcs/run.c
 
 OBJECTS = $(SOURCES:.c=.o)
 
@@ -15,7 +16,7 @@ all : $(NAME)
 
 $(NAME) : $(OBJECTS)
 	make -C libft
-	cc $^ -Llibft -lft -o $@
+	cc $^ -Llibft -lft $(mlx_LIB) -o $@
 
 %.o : %.c
 	cc $(CFLAGS) -Ilibft/includes -I$(INCLUDES) -c $^ -o $@
