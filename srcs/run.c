@@ -6,7 +6,7 @@
 /*   By: minsulee <minsulee@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/23 14:33:01 by minsulee          #+#    #+#             */
-/*   Updated: 2023/03/27 14:34:09 by minsulee         ###   ########.fr       */
+/*   Updated: 2023/03/27 19:14:16 by minsulee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,10 +59,25 @@ typedef struct s_player
 
 } t_player;
 
+// typedef struct s_signal
+// {
+// 	int signal;
+// 	// char left;
+// 	// char right;
+// 	// char up;
+// 	// char down;
+// } t_signal;
 
 #define SCREEN_WIDTH 1920
 #define SCREEN_HEIGHT 1080
 
+// typedef struct s_tex
+// {
+// 	void *n;
+// 	void *s;
+// 	void *e;
+// 	void *w;
+// }
 
 typedef struct s_data
 {
@@ -86,6 +101,8 @@ typedef struct s_vars
 	// int				scale;
 	t_player		*player;
 	t_map			*map;
+	int				keys;
+	// int				signal;
 
 }				t_vars;
 
@@ -267,9 +284,42 @@ int	project_once(t_vars *ml_mlx, t_map *map, t_player *player)
 
 		int	color;
 		if (side == 1)
-			color = 0x87CEEB;
+		{
+			if (stepY < 0) //west
+				// side = 0;
+				color = 0x770000; // west
+			else //east
+				// side = 1;
+				color = 0x007700; // east
+		}
 		else
-			color = 0x444444;
+		{
+			if (stepX < 0) //north
+				// side = 2;
+				color = 0x444444; // north
+			else //south
+				// side = 3;
+				color = 0x000077; // south
+		}
+		// int	color;
+		// if (side == 1)
+		// {
+		// 	if (stepY < 0) //west
+		// 		side = 0;
+		// 		// color = 0x770000; // west
+		// 	else //east
+		// 		side = 1;
+		// 		// color = 0x007700; // east
+		// }
+		// else
+		// {
+		// 	if (stepX < 0) //north
+		// 		side = 2;
+		// 		// color = 0x444444; // north
+		// 	else //south
+		// 		side = 3;
+		// 		// color = 0x000077; // south
+		// }
 
 		ml_mlx_draw_line(&ml_mlx->data, x, drawStart, drawEnd, color);
 
@@ -356,73 +406,240 @@ static void	ml_mlx_init(t_vars *ml_mlx)
 
 
 
-int	key_hook(int key, t_vars *vars)
+// int	key_hook(int key, t_vars *vars)
+// {
+// 	printf("key :: %d\n", key);
+
+// 	if (key == 53)
+// 		exit(0);
+
+// 	if (key == 2) // left
+// 	{
+// 		// vars->player->rotation -= 1;
+// 		vars->player->rotation -= M_PI / 36;
+
+// 		double rotation = vars->player->rotation;
+// 		// double oldDirX = vars->player->dirX;
+// 		// double oldDirY = vars->player->dirY;
+// 		double oldDirX = -1;
+// 		double oldDirY = 0;
+// 		vars->player->dirX = oldDirX * cos(rotation) - oldDirY * sin(rotation);
+// 		vars->player->dirY = oldDirX * sin(rotation) + oldDirY * cos(rotation);
+// 		// double oldPlaneX = vars->player->planeX;
+// 		// double oldPlaneY = vars->player->planeY;
+// 		double oldPlaneX = 0;
+// 		double oldPlaneY = 1;
+// 		vars->player->planeX = oldPlaneX * cos(rotation) - oldPlaneY * sin(rotation);
+// 		vars->player->planeY = oldPlaneX * sin(rotation) + oldPlaneY * cos(rotation);
+// 	}
+// 	else if (key == 13) // up
+// 	{
+// 		if(worldMap[(int)(vars->player->posX + vars->player->dirX / 2)][(int)(vars->player->posY)] == 0)
+// 			vars->player->posX += (vars->player->dirX / 2);
+// 		if(worldMap[(int)(vars->player->posX)][(int)(vars->player->posY + vars->player->dirY / 2)] == 0)
+// 			vars->player->posY += (vars->player->dirY / 2);
+// 	}
+// 	else if (key == 0) // right
+// 	{
+// 		// vars->player->rotation += 1;
+// 		vars->player->rotation += M_PI / 36;
+
+// 		double rotation = vars->player->rotation;
+// 		// double oldDirX = vars->player->dirX;
+// 		// double oldDirY = vars->player->dirY;
+// 		double oldDirX = -1;
+// 		double oldDirY = 0;
+// 		vars->player->dirX = oldDirX * cos(rotation) - oldDirY * sin(rotation);
+// 		vars->player->dirY = oldDirX * sin(rotation) + oldDirY * cos(rotation);
+// 		// double oldPlaneX = vars->player->planeX;
+// 		// double oldPlaneY = vars->player->planeY;
+// 		double oldPlaneX = 0;
+// 		double oldPlaneY = 1;
+// 		vars->player->planeX = oldPlaneX * cos(rotation) - oldPlaneY * sin(rotation);
+// 		vars->player->planeY = oldPlaneX * sin(rotation) + oldPlaneY * cos(rotation);
+// 	}
+// 	else if (key == 1) // down;
+// 	{
+// 		if(worldMap[(int)(vars->player->posX - vars->player->dirX / 2)][(int)(vars->player->posY)] == 0)
+// 			vars->player->posX -= (vars->player->dirX / 2);
+// 		if(worldMap[(int)(vars->player->posX)][(int)(vars->player->posY - vars->player->dirY / 2)] == 0)
+// 			vars->player->posY -= (vars->player->dirY / 2);
+// 	}
+// 	// vars->player->rotation = vars->player->rotation % 360;
+// 	project_once(vars, vars->map, vars->player);
+// 	if (fabs(vars->player->rotation) >= 6.28)
+// 		vars->player->rotation = 0;
+
+// 	printf("rotation : %f\n", vars->player->rotation);
+// 	// printf("posX posY : %f :: %f \n", vars->player->posX, vars->player->posY);
+// 	// printf("dirX dirY : %f :: %f \n", vars->player->dirX, vars->player->dirY);
+// 	// printf("planeX planeY : %f :: %f \n", vars->player->planeX, vars->player->planeY);
+
+// 	return (1);
+// }
+
+// int	render_next_frame_help(int key, t_vars *vars)
+// {
+// 	printf("key :: %d\n", key);
+
+// 	if (key == 53)
+// 		exit(0);
+
+// 	if (key == 2) // right
+// 	{
+
+
+
+
+// 		vars->player->rotation += M_PI / 36;
+
+// 		double rotation = vars->player->rotation;
+// 		double oldDirX = -1;
+// 		double oldDirY = 0;
+// 		vars->player->dirX = oldDirX * cos(rotation) - oldDirY * sin(rotation);
+// 		vars->player->dirY = oldDirX * sin(rotation) + oldDirY * cos(rotation);
+// 		double oldPlaneX = 0;
+// 		double oldPlaneY = 1;
+// 		vars->player->planeX = oldPlaneX * cos(rotation) - oldPlaneY * sin(rotation);
+// 		vars->player->planeY = oldPlaneX * sin(rotation) + oldPlaneY * cos(rotation);
+// 	}
+// 	else if (key == 13) // up
+// 	{
+// 		if(worldMap[(int)(vars->player->posX + vars->player->dirX / 2)][(int)(vars->player->posY)] == 0)
+// 			vars->player->posX += (vars->player->dirX / 2);
+// 		if(worldMap[(int)(vars->player->posX)][(int)(vars->player->posY + vars->player->dirY / 2)] == 0)
+// 			vars->player->posY += (vars->player->dirY / 2);
+// 	}
+// 	else if (key == 0) // left
+// 	{
+// 		vars->player->rotation -= M_PI / 36;
+
+// 		double rotation = vars->player->rotation;
+// 		double oldDirX = -1;
+// 		double oldDirY = 0;
+// 		vars->player->dirX = oldDirX * cos(rotation) - oldDirY * sin(rotation);
+// 		vars->player->dirY = oldDirX * sin(rotation) + oldDirY * cos(rotation);
+// 		double oldPlaneX = 0;
+// 		double oldPlaneY = 1;
+// 		vars->player->planeX = oldPlaneX * cos(rotation) - oldPlaneY * sin(rotation);
+// 		vars->player->planeY = oldPlaneX * sin(rotation) + oldPlaneY * cos(rotation);
+// 	}
+// 	else if (key == 1) // down;
+// 	{
+// 		if(worldMap[(int)(vars->player->posX - vars->player->dirX / 2)][(int)(vars->player->posY)] == 0)
+// 			vars->player->posX -= (vars->player->dirX / 2);
+// 		if(worldMap[(int)(vars->player->posX)][(int)(vars->player->posY - vars->player->dirY / 2)] == 0)
+// 			vars->player->posY -= (vars->player->dirY / 2);
+// 	}
+// 	project_once(vars, vars->map, vars->player);
+// 	if (fabs(vars->player->rotation) >= 6.28)
+// 		vars->player->rotation = 0;
+
+// 	printf("rotation : %f\n", vars->player->rotation);
+// 	return (1);
+// }
+
+int	key_press_hook(int key, t_vars *vars)
 {
-	printf("key :: %d\n", key);
-	if (key == 2) // left
-	{
-		vars->player->rotation -= 1;
-
-		double rotation = vars->player->rotation / 36;
-		// double oldDirX = vars->player->dirX;
-		// double oldDirY = vars->player->dirY;
-		double oldDirX = -1;
-		double oldDirY = 0;
-		vars->player->dirX = oldDirX * cos(rotation) - oldDirY * sin(rotation);
-		vars->player->dirY = oldDirX * sin(rotation) + oldDirY * cos(rotation);
-		// double oldPlaneX = vars->player->planeX;
-		// double oldPlaneY = vars->player->planeY;
-		double oldPlaneX = 0;
-		double oldPlaneY = 1;
-		vars->player->planeX = oldPlaneX * cos(rotation) - oldPlaneY * sin(rotation);
-		vars->player->planeY = oldPlaneX * sin(rotation) + oldPlaneY * cos(rotation);
-	}
-	else if (key == 13) // up
-	{
-		vars->player->posX += (vars->player->dirX / 1);
-		vars->player->posY += (vars->player->dirY / 1);
-	}
-	else if (key == 0) // right
-	{
-		vars->player->rotation += 1;
-
-		double rotation = vars->player->rotation / 36;
-		// double oldDirX = vars->player->dirX;
-		// double oldDirY = vars->player->dirY;
-		double oldDirX = -1;
-		double oldDirY = 0;
-		vars->player->dirX = oldDirX * cos(rotation) - oldDirY * sin(rotation);
-		vars->player->dirY = oldDirX * sin(rotation) + oldDirY * cos(rotation);
-		// double oldPlaneX = vars->player->planeX;
-		// double oldPlaneY = vars->player->planeY;
-		double oldPlaneX = 0;
-		double oldPlaneY = 1;
-		vars->player->planeX = oldPlaneX * cos(rotation) - oldPlaneY * sin(rotation);
-		vars->player->planeY = oldPlaneX * sin(rotation) + oldPlaneY * cos(rotation);
-	}
-	else if (key == 1) // down;
-	{
-		vars->player->posX -= (vars->player->dirX / 1);
-		vars->player->posY -= (vars->player->dirY / 1);
-	}
-	// vars->player->rotation = vars->player->rotation % 360;
-	project_once(vars, vars->map, vars->player);
-
-
-	// printf("rotation : %f\n", vars->player->rotation);
-	// printf("posX posY : %f :: %f \n", vars->player->posX, vars->player->posY);
-	// printf("dirX dirY : %f :: %f \n", vars->player->dirX, vars->player->dirY);
-	// printf("planeX planeY : %f :: %f \n", vars->player->planeX, vars->player->planeY);
-
-	return (1);
+	// printf("key press:: %d\n", key);
+	if (key == 53)
+		exit(0);
+	else if (key == 13 && !(vars->keys & 0x8)) // up
+		vars->keys += 8;
+	else if (key == 0 && !(vars->keys & 0x4)) // left
+		vars->keys += 4;
+	else if (key == 1 && !(vars->keys & 0x2)) // down
+		vars->keys += 2;
+	else if (key == 2 && !(vars->keys & 0x1)) // right
+		vars->keys += 1;
+	return (0);
 }
 
+int key_release_hook(int key, t_vars *vars)
+{
+	// printf("key release:: %d\n", key);
+	if (key == 13 && (vars->keys & 0x8)) // up
+		vars->keys -= 8;
+	else if (key == 0 && (vars->keys & 0x4)) // left
+		vars->keys -= 4;
+	else if (key == 1 && (vars->keys & 0x2)) // down
+		vars->keys -= 2;
+	else if (key == 2 && (vars->keys & 0x1)) // right
+		vars->keys -= 1;
+	return (0);
+}
+
+void leak_check(void)
+{
+	system("leaks cub3D");
+}
+
+
+int	render_next_frame(t_vars *vars)
+{
+	if (vars->keys)
+	{
+		if (!((vars->keys & 0x8) && (vars->keys & 0x2)))
+		{
+			if (vars->keys & 0x8) // up
+			{
+				if(worldMap[(int)(vars->player->posX + vars->player->dirX / 8)][(int)(vars->player->posY)] == 0)
+					vars->player->posX += (vars->player->dirX / 8);
+				if(worldMap[(int)(vars->player->posX)][(int)(vars->player->posY + vars->player->dirY / 8)] == 0)
+					vars->player->posY += (vars->player->dirY / 8);
+			}
+			else if (vars->keys & 0x2) // down
+			{
+				if(worldMap[(int)(vars->player->posX - vars->player->dirX / 8)][(int)(vars->player->posY)] == 0)
+					vars->player->posX -= (vars->player->dirX / 8);
+				if(worldMap[(int)(vars->player->posX)][(int)(vars->player->posY - vars->player->dirY / 8)] == 0)
+					vars->player->posY -= (vars->player->dirY / 8);
+			}
+		}
+		if (!((vars->keys & 0x4) && (vars->keys & 0x1)))
+		{
+			if (vars->keys & 0x4) // left
+			{
+				vars->player->rotation += M_PI / 72;
+
+				double rotation = vars->player->rotation;
+				double oldDirX = -1;
+				double oldDirY = 0;
+				vars->player->dirX = oldDirX * cos(rotation) - oldDirY * sin(rotation);
+				vars->player->dirY = oldDirX * sin(rotation) + oldDirY * cos(rotation);
+				double oldPlaneX = 0;
+				double oldPlaneY = 1;
+				vars->player->planeX = oldPlaneX * cos(rotation) - oldPlaneY * sin(rotation);
+				vars->player->planeY = oldPlaneX * sin(rotation) + oldPlaneY * cos(rotation);
+			}
+			else if (vars->keys & 0x1) // right
+			{
+				vars->player->rotation -= M_PI / 72;
+
+				double rotation = vars->player->rotation;
+				double oldDirX = -1;
+				double oldDirY = 0;
+				vars->player->dirX = oldDirX * cos(rotation) - oldDirY * sin(rotation);
+				vars->player->dirY = oldDirX * sin(rotation) + oldDirY * cos(rotation);
+				double oldPlaneX = 0;
+				double oldPlaneY = 1;
+				vars->player->planeX = oldPlaneX * cos(rotation) - oldPlaneY * sin(rotation);
+				vars->player->planeY = oldPlaneX * sin(rotation) + oldPlaneY * cos(rotation);
+			}
+		}
+
+	}
+	project_once(vars, vars->map, vars->player);
+	if (fabs(vars->player->rotation) >= 6.28)
+		vars->player->rotation = 0;
+	return (0);
+}
 
 int main(int argc, char **argv)
 {
 	t_map	map;
 
-	
+	atexit(leak_check);
 
 	
 	if (argc != 2)
@@ -456,18 +673,23 @@ int main(int argc, char **argv)
 	// printf("posX posY : %f :: %f \n", player.posX, player.posY);
 	// printf("dirX dirY : %f :: %f \n", player.dirX, player.dirY);
 	// printf("planeX planeY : %f :: %f \n", player.planeX, player.planeY);
+	// t_signal ml_sign;
+	// ml_mlx.keys = &ml_sign;
 
+	// ml_sign.down = 0;
+	// ml_sign.up = 0;
+	// ml_sign.left = 0;
+	// ml_sign.right = 0;
+	// ml_sign.signal = 0;
 
+	ml_mlx.keys = 0;
 	//key hook : arrow key -> rotation + project_once;
 	//key hook : on_destroy -> freeing things.
 	project_once(&ml_mlx, &map, &player);
-	mlx_hook(ml_mlx.win, 2, 1L << 0, key_hook, &ml_mlx);
-
-
-
-
-
-
+	// mlx_hook(ml_mlx.win, 2, 1L << 0, key_hook, &ml_mlx);
+	mlx_hook(ml_mlx.win, 2, 1L << 0, key_press_hook, &ml_mlx);
+	mlx_hook(ml_mlx.win, 3, 1L << 1, key_release_hook, &ml_mlx);
+	mlx_loop_hook(ml_mlx.mlx, render_next_frame, &ml_mlx);
 	mlx_loop(ml_mlx.mlx);
 
 	// while (1)
