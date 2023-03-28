@@ -6,7 +6,7 @@
 /*   By: minsulee <minsulee@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/23 14:33:01 by minsulee          #+#    #+#             */
-/*   Updated: 2023/03/27 19:14:16 by minsulee         ###   ########.fr       */
+/*   Updated: 2023/03/28 16:29:54 by minsulee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,13 +71,6 @@ typedef struct s_player
 #define SCREEN_WIDTH 1920
 #define SCREEN_HEIGHT 1080
 
-// typedef struct s_tex
-// {
-// 	void *n;
-// 	void *s;
-// 	void *e;
-// 	void *w;
-// }
 
 typedef struct s_data
 {
@@ -87,6 +80,29 @@ typedef struct s_data
 	int		line_length;
 	int		endian;
 }				t_data;
+
+typedef struct s_tex
+{
+	// void	*n;
+	int		n_width;
+	int		n_height;
+	t_data	n;
+
+	// void	*s;
+	int		s_width;
+	int		s_height;
+	t_data	s;
+
+	// void	*e;
+	int		e_width;
+	int		e_height;
+	t_data	e;
+
+	// void	*w;
+	int		w_width;
+	int		w_height;
+	t_data	w;
+} t_tex;
 
 typedef struct s_vars
 {
@@ -102,9 +118,11 @@ typedef struct s_vars
 	t_player		*player;
 	t_map			*map;
 	int				keys;
+	t_tex			*tex;
 	// int				signal;
 
 }				t_vars;
+
 
 
 
@@ -164,9 +182,10 @@ int	project_once(t_vars *ml_mlx, t_map *map, t_player *player)
 	//4. 저장된 y축 길이에 따라 mlx_win 에 x = 0 ~ window_width - 1까지 세로축 그리가
 	//5. 그려진 그대로 출력 후 종료
 
-
+	// printf("PROJECT ONCE\n");
 
 	ml_mlx_clear_window(ml_mlx);
+
 
 	double posX = player->posX;
 	// posX = 22; // test
@@ -178,7 +197,8 @@ int	project_once(t_vars *ml_mlx, t_map *map, t_player *player)
 	{
 		double cameraX;
 		// cameraX = (2 * (x + 1) / (double(1920)) - 1);
-		cameraX = 2 * (x + 1) / (double)SCREEN_WIDTH - 1;
+		// cameraX = 2 * (x + 1) / (double)SCREEN_WIDTH - 1;
+		cameraX = 2 * x / (double)SCREEN_WIDTH - 1;
 		double rayDirX = player->dirX + player->planeX * cameraX;
 		double rayDirY = player->dirY + player->planeY * cameraX;
 
@@ -197,7 +217,7 @@ int	project_once(t_vars *ml_mlx, t_map *map, t_player *player)
 			deltaDistY = fabs(1 / rayDirY);
 
 
-		double wall_distance;
+		// double wall_distance;
 		int hit = 0;
 		int side;
 		
@@ -256,7 +276,7 @@ int	project_once(t_vars *ml_mlx, t_map *map, t_player *player)
 				side = 1;
 			}
 			//Check if ray has hit a wall
-			if (worldMap[mapX][mapY] > 0)
+			if (worldMap[mapX][mapY] > 0) // FIX IT TO mapY mapX. IMPORTANT!!!!!!!!!!!!!!!!!!!!!!!!!
 				hit = 1;
 		} 
 
@@ -265,7 +285,10 @@ int	project_once(t_vars *ml_mlx, t_map *map, t_player *player)
 		if(side == 0) perpWallDist = (sideDistX - deltaDistX);
 		else          perpWallDist = (sideDistY - deltaDistY);
 
-
+		// if (side == 0)
+		// 	perpWallDist = (mapX - posX + (1 - stepX) / 2) / rayDirX;
+		// else
+		// 	perpWallDist = (mapY - posY + (1 - stepY) / 2) / rayDirY;
 
 
 
@@ -280,70 +303,140 @@ int	project_once(t_vars *ml_mlx, t_map *map, t_player *player)
 		if(drawEnd >= SCREEN_HEIGHT)
 			drawEnd = SCREEN_HEIGHT - 1;
 
-
+			// printf("PROJECT COLOR\n");
 
 		int	color;
-		if (side == 1)
-		{
-			if (stepY < 0) //west
-				// side = 0;
-				color = 0x770000; // west
-			else //east
-				// side = 1;
-				color = 0x007700; // east
-		}
-		else
-		{
-			if (stepX < 0) //north
-				// side = 2;
-				color = 0x444444; // north
-			else //south
-				// side = 3;
-				color = 0x000077; // south
-		}
-		// int	color;
 		// if (side == 1)
 		// {
 		// 	if (stepY < 0) //west
-		// 		side = 0;
-		// 		// color = 0x770000; // west
+		// 		// side = 0;
+		// 		color = 0x770000; // west
 		// 	else //east
-		// 		side = 1;
-		// 		// color = 0x007700; // east
+		// 		// side = 1;
+		// 		color = 0x007700; // east
 		// }
 		// else
 		// {
 		// 	if (stepX < 0) //north
-		// 		side = 2;
-		// 		// color = 0x444444; // north
+		// 		// side = 2;
+		// 		color = 0x444444; // north
 		// 	else //south
-		// 		side = 3;
-		// 		// color = 0x000077; // south
+		// 		// side = 3;
+		// 		color = 0x000077; // south
 		// }
 
-		ml_mlx_draw_line(&ml_mlx->data, x, drawStart, drawEnd, color);
+		if (side == 1) // west east
+		{
+			// color = 0xFFFFFF;
+			if (stepY < 0) //west
+				side = 0;
+			else //east
+				side = 1;
+		}
+		else // north south, side == 0
+		{
+			// color = 0x444444;
+			if (stepX < 0) //north
+				side = 2;
+			else //south
+				side = 3;
+		}
+
+
+		double wallX; //exact value where the wall was hit.
+		if (side >= 2)
+			wallX = posY + perpWallDist * rayDirY;
+		else
+			wallX = posX + perpWallDist * rayDirX;
+		if (x == SCREEN_WIDTH / 2)
+			printf("side : %d, previous WallX : %f, ", side, wallX);
+		wallX -= floor(wallX);
+
+
+
+		//x coordinate on the texture
+		double		texWidth;
+		double		texHeight;
+		// char		*texture;
+		int			*texture;
+		if (side == 0)
+		{
+			// texture = (char *)ml_mlx->tex->w.addr;
+			texture = (int *)ml_mlx->tex->w.addr;
+			texWidth = ml_mlx->tex->w_width;
+			texHeight = ml_mlx->tex->w_height;
+		}
+		else if (side == 1)
+		{
+			// texture = (char *)ml_mlx->tex->e.addr;
+			texture = (int *)ml_mlx->tex->e.addr;
+			texWidth = ml_mlx->tex->e_width;
+			texHeight = ml_mlx->tex->e_height;
+		}
+		else if (side == 2)
+		{
+			// texture = (char *)ml_mlx->tex->n.addr;
+			texture = (int *)ml_mlx->tex->n.addr;
+			texWidth = ml_mlx->tex->n_width;
+			texHeight = ml_mlx->tex->n_height;
+		}
+		else if (side == 3)
+		{
+			// texture = (char *)ml_mlx->tex->s.addr;
+			texture = (int *)ml_mlx->tex->s.addr;
+			texWidth = ml_mlx->tex->s_width;
+			texHeight = ml_mlx->tex->s_height;
+		}
+
+		//temporary
+		// texWidth = 64;
+		// texHeight = 64;
+
+
+
+		int	texX = (int)(wallX * texWidth);
+		if (side == 3 || side == 0)
+			texX = texWidth - texX - 1;
+			// texX = texWidth - texX;
+		if (x == SCREEN_WIDTH / 2)
+		{
+			printf("posX : %f, posY : %f, rayDirX : %f, rayDirY : %f, perpWallDist : %f, WallX : %f, TEXWIDTH : %f, texX : %d\n", posX, posY, rayDirX, rayDirY, perpWallDist, wallX, texWidth, texX);
+			// printf")
+		}
+
+
+		// printf("successfully put a pixel at %d %d\n", x, y);
+		double step = 1.0 * texHeight / lineHeight;
+		double texPos = (drawStart - (SCREEN_HEIGHT / 2) + lineHeight / 2) * step;
+		for (int y = drawStart; y < drawEnd; y++)
+		{
+			int texY = (int)(texPos) & (int)(texHeight - 1);
+			texPos += step;
+			// if ((int)texHeight * texY + texX >= 0)
+			color = texture[(int)texWidth * texY + texX];
+			// color = texture[(int)texHeight * texY + texX];
+			// HEIGHT?? WIDTH??
+
+
+			// if (x == SCREEN_WIDTH / 2)
+			// 	printf("%d\n", texX);
+			// else
+			// 	color = texture[0];
+			// printf("y : %d, color : %d\n", y, color);
+			// color = texture[64 * (int)texWidth + 64];
+			// color = 0xFFFFFF;
+			ml_mlx_put_pixel(&ml_mlx->data, x, y, color);
+		}
+		// exit (0);
 
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+		// ml_mlx_draw_line(&ml_mlx->data, x, drawStart, drawEnd, color);
 
 		x++;
 	}
-
+	// usleep(100);
 
 
 
@@ -368,7 +461,7 @@ static void	ml_mlx_init(t_vars *ml_mlx)
 {
 	ml_mlx->mlx = mlx_init();
 	ml_mlx->win = mlx_new_window(ml_mlx->mlx, \
-	SCREEN_WIDTH, SCREEN_HEIGHT, "minsulee_fdf");
+	SCREEN_WIDTH, SCREEN_HEIGHT, "minsulyim_cub3D");
 	ml_mlx->data.img = mlx_new_image(ml_mlx->mlx, SCREEN_WIDTH, SCREEN_HEIGHT);
 	ml_mlx->data.addr = mlx_get_data_addr(ml_mlx->data.img, \
 		&(ml_mlx->data.bits_per_pixel), &(ml_mlx->data.line_length), \
@@ -639,7 +732,7 @@ int main(int argc, char **argv)
 {
 	t_map	map;
 
-	atexit(leak_check);
+	// atexit(leak_check);
 
 	
 	if (argc != 2)
@@ -669,6 +762,47 @@ int main(int argc, char **argv)
 	player.planeY = 1;
 	ml_mlx.player = &player;
 
+	// printf("INIT PART\n");
+
+	t_tex texture;
+	// printf("T_TEX\n");
+	texture.n.img = 0;
+	// printf("TRY: FILE OPEN\n");
+	texture.n.img = mlx_xpm_file_to_image(ml_mlx.mlx, "/Users/minsulee/Desktop/cub3d/cub3D/srcs/OIP.xpm", &texture.n_width, &texture.n_height);
+	// printf("FILE OPEN\n");
+	texture.n.addr = 0;
+	texture.n.addr = mlx_get_data_addr(texture.n.img, &texture.n.bits_per_pixel, &texture.n.line_length, &texture.n.endian);
+
+	printf("%p %p\n", texture.n.img, texture.n.addr);
+	// printf("%d %d\n", texture.n_width, texture.n_height);
+
+	// for (int py = 0; py < texture.n_height; py++)
+	// {
+	// 	for (int px = 0; px < texture.n_width; px++)
+	// 	{
+	// 		printf("%X ", texture.n.addr[py * texture.n_width + px]);
+	// 	}
+	// 	printf("\n");
+	// }
+	// exit (0);
+
+	// printf("N DONE. FILE OPENED\n");
+	texture.s.img = mlx_xpm_file_to_image(ml_mlx.mlx, "/Users/minsulee/Desktop/cub3d/cub3D/srcs/OIP-1.xpm", &texture.s_width, &texture.s_height);
+	texture.s.addr = mlx_get_data_addr(texture.s.img, &texture.s.bits_per_pixel, &texture.s.line_length, &texture.s.endian);
+	printf("%p %p\n", texture.s.img, texture.s.addr);
+	printf("INIT2\n");
+	texture.e.img = mlx_xpm_file_to_image(ml_mlx.mlx, "/Users/minsulee/Desktop/cub3d/cub3D/srcs/OIP-2.xpm", &texture.e_width, &texture.e_height);
+	texture.e.addr = mlx_get_data_addr(texture.e.img, &texture.e.bits_per_pixel, &texture.e.line_length, &texture.e.endian);
+	printf("%p %p\n", texture.e.img, texture.e.addr);
+	printf("INIT3\n");
+	texture.w.img = mlx_xpm_file_to_image(ml_mlx.mlx, "/Users/minsulee/Desktop/cub3d/cub3D/srcs/OIP-3.xpm", &texture.w_width, &texture.w_height);
+	texture.w.addr = mlx_get_data_addr(texture.w.img, &texture.w.bits_per_pixel, &texture.w.line_length, &texture.w.endian);
+	printf("%p %p\n", texture.w.img, texture.w.addr);
+	printf("INIT4\n");
+	ml_mlx.tex = &texture;
+
+
+	printf("NOT INIT PART\n");
 	// printf("rotation : %f\n", player.rotation);
 	// printf("posX posY : %f :: %f \n", player.posX, player.posY);
 	// printf("dirX dirY : %f :: %f \n", player.dirX, player.dirY);
