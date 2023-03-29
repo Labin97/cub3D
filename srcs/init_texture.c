@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init_texture.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yim <yim@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: yim <yim@student.42seoul.kr>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/22 16:22:59 by yim               #+#    #+#             */
-/*   Updated: 2023/03/22 16:24:31 by yim              ###   ########.fr       */
+/*   Updated: 2023/03/29 19:27:36 by yim              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,17 +14,19 @@
 
 int	skip_space(char *line, char **tmp, t_map *map)
 {
-	int	fd;
+	int		fd;
+	char	*current;
 
-	line += 2;
-	while (*line == ' ')
-		line++;
-	// fd = open(line, O_RDONLY);
-	// if (fd < 0)
-	// 	exit_line_error("texture open error", 1, line, map);
-	// else
-	// 	close(fd);
-	*tmp = ft_strdup(line);
+	current = line;
+	current += 2;
+	while (*current == ' ')
+		current++;
+	fd = open(current, O_RDONLY);
+	if (fd < 0)
+		exit_line_error("texture open error", 1, line, map);
+	else
+		close(fd);
+	*tmp = ft_strdup(current);
 	if (*tmp == NULL)
 		exit_line_error("malloc error", 1, line, map);
 	return (1);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   run.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: minsulee <minsulee@student.42seoul.kr>     +#+  +:+       +#+        */
+/*   By: yim <yim@student.42seoul.kr>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/23 14:33:01 by minsulee          #+#    #+#             */
-/*   Updated: 2023/03/29 16:31:47 by minsulee         ###   ########.fr       */
+/*   Updated: 2023/03/29 19:28:35y yim              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,12 +69,12 @@ void	ml_mlx_put_pixel(t_data *data, int x, int y, int color)
 	*(unsigned int *)dst = color;
 }
 
-// void	ml_mlx_draw_line(t_data *data, int x, int drawStart, int drawEnd, int color)
+// void	ml_mlx_draw_line(t_data *data, int x, int draw_start, int draw_end, int color)
 // {
 // 	int index;
 
-// 	index = drawStart;
-// 	while (index <= drawEnd)
+// 	index = draw_start;
+// 	while (index <= draw_end)
 // 	{
 // 		ml_mlx_put_pixel(data, x, index, color);
 // 		index++;
@@ -103,8 +103,8 @@ void	ml_mlx_put_pixel(t_data *data, int x, int y, int color)
 void	ml_mlx_ceiling(t_vars *vars, int color)
 {
 	int	half_height;
-	int y;
-	int x;
+	int	y;
+	int	x;
 
 	y = 0;
 	x = 0;
@@ -123,8 +123,8 @@ void	ml_mlx_ceiling(t_vars *vars, int color)
 
 void	ml_mlx_floor(t_vars *vars, int color)
 {
-	int y;
-	int x;
+	int	y;
+	int	x;
 
 	y = SCREEN_HEIGHT / 2;
 	x = 0;
@@ -142,40 +142,36 @@ void	ml_mlx_floor(t_vars *vars, int color)
 
 typedef struct s_projection
 {
-	double posX;
-	double posY;
+	double	pos_x;
+	double	pos_y;
 
-	double cameraX;
-	double rayDirX;
-	double rayDirY;
-	double deltaDistX;
-	double deltaDistY;
-	
-	int hit;
-	int side;
-	
-	int mapX;
-	int mapY;
+	double	camera_x;
+	double	raydir_x;
+	double	raydir_y;
+	double	delta_dist_x;
+	double	delta_dist_y;
+	int		hit;
+	int		side;
+	int		map_x;
+	int		map_y;
 
-	double	sideDistX;
-	double	sideDistY;
+	double	side_dist_x;
+	double	side_dist_y;
 
-	int stepX;
-	int stepY;
+	int		step_x;
+	int		step_y;
 
-	double perpWallDist;
+	double	perp_wall_dist;
 
-	double wallX;
+	double	wall_x;
 
-	int lineHeight;
-	int drawStart;
-	int drawEnd;
-
-	double		texWidth;
-	double		texHeight;
-	int			*texture;
-
-} t_projection;
+	int		line_height;
+	int		draw_start;
+	int		draw_end;
+	double	tex_width;
+	double	tex_height;
+	int		*texture;
+}	t_projection;
 
 
 
@@ -189,47 +185,47 @@ typedef struct s_projection
 
 void	projection_init(t_projection *projection, int x, t_player *player)
 {
-	projection->cameraX = 2 * (x - 1) / (double)SCREEN_WIDTH - 1;
-	projection->rayDirX = player->dirX + player->planeX * projection->cameraX;
-	projection->rayDirY = player->dirY + player->planeY * projection->cameraX;
+	projection->camera_x = 2 * (x - 1) / (double)SCREEN_WIDTH - 1;
+	projection->raydir_x = player->dir_x + player->plane_x * projection->camera_x;
+	projection->raydir_y = player->dir_y + player->plane_y * projection->camera_x;
 	projection->hit = 0;
 	projection->side = 0;
-	if (projection->rayDirX == 0)
-		projection->deltaDistX = __DBL_MAX__;
+	if (projection->raydir_x == 0)
+		projection->delta_dist_x = __DBL_MAX__;
 	else
-		projection->deltaDistX = fabs(1 / projection->rayDirX);
+		projection->delta_dist_x = fabs(1 / projection->raydir_x);
 	
-	if (projection->rayDirY == 0)
-		projection->deltaDistY = __DBL_MAX__;
+	if (projection->raydir_y == 0)
+		projection->delta_dist_y = __DBL_MAX__;
 	else
-		projection->deltaDistY = fabs(1 / projection->rayDirY);
-	projection->posX = player->posX;
-	projection->posY = player->posY;
-	projection->mapX = (int) player->posX;
-	projection->mapY = (int) player->posY;
+		projection->delta_dist_y = fabs(1 / projection->raydir_y);
+	projection->pos_x = player->pos_x;
+	projection->pos_y = player->pos_y;
+	projection->map_x = (int) player->pos_x;
+	projection->map_y = (int) player->pos_y;
 }
 
 void	projection_direction_set(t_projection *projection)
 {
-		if (projection->rayDirX < 0)
+		if (projection->raydir_x < 0)
 		{
-			projection->stepX = -1;
-			projection->sideDistX = (projection->posX - projection->mapX) * projection->deltaDistX;
+			projection->step_x = -1;
+			projection->side_dist_x = (projection->pos_x - projection->map_x) * projection->delta_dist_x;
 		}
 		else
 		{
-			projection->stepX = 1;
-			projection->sideDistX = (projection->mapX + 1.0 - projection->posX) * projection->deltaDistX;
+			projection->step_x = 1;
+			projection->side_dist_x = (projection->map_x + 1.0 - projection->pos_x) * projection->delta_dist_x;
 		}
-		if (projection->rayDirY < 0)
+		if (projection->raydir_y < 0)
 		{
-			projection->stepY = -1;
-			projection->sideDistY = (projection->posY - projection->mapY) * projection->deltaDistY;
+			projection->step_y = -1;
+			projection->side_dist_y = (projection->pos_y - projection->map_y) * projection->delta_dist_y;
 		}
 		else
 		{
-			projection->stepY = 1;
-			projection->sideDistY = (projection->mapY + 1.0 - projection->posY) * projection->deltaDistY;
+			projection->step_y = 1;
+			projection->side_dist_y = (projection->map_y + 1.0 - projection->pos_y) * projection->delta_dist_y;
 		}
 }
 
@@ -240,50 +236,50 @@ void	projection_shoot(t_map *map, t_projection *projection)
 		while (projection->hit == 0)
 		{
 			//jump to next map square, either in x-direction, or in y-direction
-			if (projection->sideDistX < projection->sideDistY)
+			if (projection->side_dist_x < projection->side_dist_y)
 			{
-				projection->sideDistX += projection->deltaDistX;
-				projection->mapX += projection->stepX;
+				projection->side_dist_x += projection->delta_dist_x;
+				projection->map_x += projection->step_x;
 				projection->side = 0;
 			}
 			else
 			{
-				projection->sideDistY += projection->deltaDistY;
-				projection->mapY += projection->stepY;
+				projection->side_dist_y += projection->delta_dist_y;
+				projection->map_y += projection->step_y;
 				projection->side = 1;
 			}
 			//Check if ray has hit a wall
-			if (map->map[projection->mapY][projection->mapX] == '1') // FIX IT TO mapY mapX. IMPORTANT!!!!!!!!!!!!!!!!!!!!!!!!!
+			if (map->map[projection->map_y][projection->map_x] == '1') // FIX IT TO map_y map_x. IMPORTANT!!!!!!!!!!!!!!!!!!!!!!!!!
 				projection->hit = 1;
 		}
-		// double perpWallDist;
+		// double perp_wall_dist;
 		if (projection->side == 0)
-			projection->perpWallDist = (projection->sideDistX - projection->deltaDistX);
+			projection->perp_wall_dist = (projection->side_dist_x - projection->delta_dist_x);
 		else
-			projection->perpWallDist = (projection->sideDistY - projection->deltaDistY);
+			projection->perp_wall_dist = (projection->side_dist_y - projection->delta_dist_y);
 
 
 //이거 원래 height 다음에 있는건데 겹치는 거 없는 것 같아서 일단 위로 데리고 왔음!
 		if (projection->side == 0)
-			projection->wallX = projection->posY + projection->perpWallDist * projection->rayDirY;
+			projection->wall_x = projection->pos_y + projection->perp_wall_dist * projection->raydir_y;
 		else
-			projection->wallX = projection->posX + projection->perpWallDist * projection->rayDirX;
+			projection->wall_x = projection->pos_x + projection->perp_wall_dist * projection->raydir_x;
 		// if (x == SCREEN_WIDTH / 2)
-		// 	printf("side : %d, previous WallX : %f, ", projection->side, projection->wallX);
-		projection->wallX -= floor(projection->wallX);
+		// 	printf("side : %d, previous Wall_x : %f, ", projection->side, projection->wall_x);
+		projection->wall_x -= floor(projection->wall_x);
 }
 
 void	projection_height(t_projection *projection)
 {
-		projection->lineHeight = (int)(SCREEN_HEIGHT / projection->perpWallDist);
+		projection->line_height = (int)(SCREEN_HEIGHT / projection->perp_wall_dist);
 
 		//calculate lowest and highest pixel to fill in current stripe
-		projection->drawStart = -(projection->lineHeight) / 2 + SCREEN_HEIGHT / 2;
-		if (projection->drawStart < 0)
-			projection->drawStart = 0;
-		projection->drawEnd = (projection->lineHeight) / 2 + SCREEN_HEIGHT / 2;
-		if (projection->drawEnd >= SCREEN_HEIGHT)
-			projection->drawEnd = SCREEN_HEIGHT - 1;
+		projection->draw_start = -(projection->line_height) / 2 + SCREEN_HEIGHT / 2;
+		if (projection->draw_start < 0)
+			projection->draw_start = 0;
+		projection->draw_end = (projection->line_height) / 2 + SCREEN_HEIGHT / 2;
+		if (projection->draw_end >= SCREEN_HEIGHT)
+			projection->draw_end = SCREEN_HEIGHT - 1;
 }
 
 void	projection_side(t_projection *projection)
@@ -291,14 +287,14 @@ void	projection_side(t_projection *projection)
 
 	if (projection->side == 1) // west east
 	{
-		if (projection->stepY < 0) //west
+		if (projection->step_y < 0) //west
 			projection->side = 0;
 		else //east
 			projection->side = 1;
 	}
 	else // north south, side == 0
 	{
-		if (projection->stepX < 0) //north
+		if (projection->step_x < 0) //north
 			projection->side = 2;
 		else //south
 			projection->side = 3;
@@ -307,59 +303,60 @@ void	projection_side(t_projection *projection)
 
 void	projection_texture(t_tex *tex, t_projection *projection)
 {
-		if (projection->side == 0)
-		{
-			projection->texture = (int *)tex->n.addr;
-			projection->texWidth = tex->n_width;
-			projection->texHeight = tex->n_height;
-		}
-		else if (projection->side == 1)
-		{
-			projection->texture = (int *)tex->s.addr;
-			projection->texWidth = tex->s_width;
-			projection->texHeight = tex->s_height;
-		}
-		if (projection->side == 2)
-		{
-			projection->texture = (int *)tex->w.addr;
-			projection->texWidth = tex->w_width;
-			projection->texHeight = tex->w_height;
-		}
-		else if (projection->side == 3)
-		{
-			projection->texture = (int *)tex->e.addr;
-			projection->texWidth = tex->e_width;
-			projection->texHeight = tex->e_height;
-		}
+	if (projection->side == 0)
+	{
+		projection->texture = (int *)tex->n.addr;
+		projection->tex_width = tex->n_width;
+		projection->tex_height = tex->n_height;
+	}
+	else if (projection->side == 1)
+	{
+		projection->texture = (int *)tex->s.addr;
+		projection->tex_width = tex->s_width;
+		projection->tex_height = tex->s_height;
+	}
+	if (projection->side == 2)
+	{
+		projection->texture = (int *)tex->w.addr;
+		projection->tex_width = tex->w_width;
+		projection->tex_height = tex->w_height;
+	}
+	else if (projection->side == 3)
+	{
+		projection->texture = (int *)tex->e.addr;
+		projection->tex_width = tex->e_width;
+		projection->tex_height = tex->e_height;
+	}
 }
 
 void	projection_draw(t_vars *ml_mlx, t_projection *projection, int x)
 {
-		int	texX;
-		int texY;
-		texX = (int)(projection->wallX * projection->texWidth);
-		if (x == SCREEN_WIDTH / 2)
-		{
-			printf("posX : %f, posY : %f, rayDirX : %f, rayDirY : %f, perpWallDist : %f, WallX : %f, TEXWIDTH : %f, texX : %d\n", projection->posX, projection->posY, projection->rayDirX, projection->rayDirY, projection->perpWallDist, projection->wallX, projection->texWidth, texX);
-			printf("\n");
-		}
-		int	color;
-		double step;
-		double texPos;
+	int	tex_x;
+	int	tex_y;
+
+	tex_x = (int)(projection->wall_x * projection->tex_width);
+	if (x == SCREEN_WIDTH / 2)
+	{
+		printf("pos_x : %f, pos_y : %f, raydir_x : %f, raydir_y : %f, perp_wall_dist : %f, Wall_x : %f, TEX_wIDTH : %f, tex_x : %d\n", projection->pos_x, projection->pos_y, projection->raydir_x, projection->raydir_y, projection->perp_wall_dist, projection->wall_x, projection->tex_width, tex_x);
+		printf("\n");
+	}
+	int	color;
+	double step;
+	double texPos;
 
 
-		if (projection->side == 3 || projection->side == 0)
-			texX = projection->texWidth - texX - 1;
-		step = 1.0 * projection->texHeight / projection->lineHeight;
-		texPos = (projection->drawStart - (SCREEN_HEIGHT / 2) + projection->lineHeight / 2) * step;
-		for (int y = projection->drawStart; y < projection->drawEnd; y++)
-		{
-			texY = (int)(texPos) & (int)(projection->texHeight - 1);
-			texPos += step;
-			color = projection->texture[(int) projection->texWidth * texY + texX];
-			// ml_mlx_put_pixel(&ml_mlx->data, x, y, projection->texture[(int)projection->texWidth * texY + texX]);
-			ml_mlx_put_pixel(&ml_mlx->data, x, y, color);
-		}
+	if (projection->side == 3 || projection->side == 0)
+		tex_x = projection->tex_width - tex_x - 1;
+	step = 1.0 * projection->tex_height / projection->line_height;
+	texPos = (projection->draw_start - (SCREEN_HEIGHT / 2) + projection->line_height / 2) * step;
+	for (int y = projection->draw_start; y < projection->draw_end; y++)
+	{
+		tex_y = (int)(texPos) & (int)(projection->tex_height - 1);
+		texPos += step;
+		color = projection->texture[(int) projection->tex_width * tex_y + tex_x];
+		// ml_mlx_put_pixel(&ml_mlx->data, x, y, projection->texture[(int)projection->tex_width * tex_y + tex_x]);
+		ml_mlx_put_pixel(&ml_mlx->data, x, y, color);
+	}
 }
 
 int	project_once(t_vars *ml_mlx, t_map *map, t_player *player)
@@ -381,10 +378,10 @@ int	project_once(t_vars *ml_mlx, t_map *map, t_player *player)
 	
 	char **worldMap = ml_mlx->map->map;
 
-	double posX = player->posX;
-	// posX = 22; // test
-	double posY = player->posY;
-	// posY = 12; // test
+	double pos_x = player->pos_x;
+	// pos_x = 22; // test
+	double pos_y = player->pos_y;
+	// pos_y = 12; // test
 
 	int x = 0, y = 0;
 	while (x < SCREEN_WIDTH)
@@ -421,29 +418,27 @@ void	find_player_pos(t_vars *ml_mlx)
 	int		i;
 	int		j;
 
-	i = 0;
-	while (i < ml_mlx->map->height)
+	i = -1;
+	while (++i < ml_mlx->map->height)
 	{
-		j = 0;
-		while (j < ml_mlx->map->width)
+		j = -1;
+		while (++j < ml_mlx->map->width)
 		{
 			if (ml_mlx->map->map[i][j] == 'N' || ml_mlx->map->map[i][j] == 'S' \
 			|| ml_mlx->map->map[i][j] == 'W' || ml_mlx->map->map[i][j] == 'E')
 			{
-				ml_mlx->player->posX = j + 0.5;
-				ml_mlx->player->posY = i + 0.5;
+				ml_mlx->player->pos_x = j + 0.5;
+				ml_mlx->player->pos_y = i + 0.5;
 				if (ml_mlx->map->map[i][j] == 'N')
-					ml_mlx->player->dirY = -1;
+					ml_mlx->player->dir_y = -1;
 				else if (ml_mlx->map->map[i][j] == 'S')
-					ml_mlx->player->dirY = 1;
+					ml_mlx->player->dir_y = 1;
 				else if (ml_mlx->map->map[i][j] == 'W')
-					ml_mlx->player->dirX = -1;
+					ml_mlx->player->dir_x = -1;
 				else if (ml_mlx->map->map[i][j] == 'E')
-					ml_mlx->player->dirX = 1;
+					ml_mlx->player->dir_x = 1;
 			}
-			j++;
 		}
-		i++;
 	}
 }
 
@@ -524,17 +519,17 @@ int	render_next_frame(t_vars *vars)
 		{
 			if (vars->keys & 0x8) // up
 			{
-				if(worldMap[(int)(vars->player->posY)][(int)(vars->player->posX + vars->player->dirX / 8)] != '1')
-					vars->player->posX += (vars->player->dirX / 8);
-				if(worldMap[(int)(vars->player->posY + vars->player->dirY / 8)][(int)(vars->player->posX)] != '1')
-					vars->player->posY += (vars->player->dirY / 8);
+				if(worldMap[(int)(vars->player->pos_y)][(int)(vars->player->pos_x + vars->player->dir_x / 8)] != '1')
+					vars->player->pos_x += (vars->player->dir_x / 8);
+				if(worldMap[(int)(vars->player->pos_y + vars->player->dir_y / 8)][(int)(vars->player->pos_x)] != '1')
+					vars->player->pos_y += (vars->player->dir_y / 8);
 			}
 			else if (vars->keys & 0x2) // down
 			{
-				if(worldMap[(int)(vars->player->posY)][(int)(vars->player->posX - vars->player->dirX / 8)] != '1')
-					vars->player->posX -= (vars->player->dirX / 8);
-				if(worldMap[(int)(vars->player->posY - vars->player->dirY / 8)][(int)(vars->player->posX)] != '1')
-					vars->player->posY -= (vars->player->dirY / 8);
+				if(worldMap[(int)(vars->player->pos_y)][(int)(vars->player->pos_x - vars->player->dir_x / 8)] != '1')
+					vars->player->pos_x -= (vars->player->dir_x / 8);
+				if(worldMap[(int)(vars->player->pos_y - vars->player->dir_y / 8)][(int)(vars->player->pos_x)] != '1')
+					vars->player->pos_y -= (vars->player->dir_y / 8);
 			}
 		}
 		if (!((vars->keys & 0x4) && (vars->keys & 0x1)))
@@ -545,45 +540,45 @@ int	render_next_frame(t_vars *vars)
 				vars->player->rotation -= M_PI / 72;
 
 				double rotation = vars->player->rotation;
-				double oldDirX = 0;
-				double oldDirY = -1;
-				vars->player->dirX = oldDirX * cos(rotation) - oldDirY * sin(rotation);
-				vars->player->dirY = oldDirX * sin(rotation) + oldDirY * cos(rotation);
-				double oldPlaneX = 1;
-				double oldPlaneY = 0;
-				vars->player->planeX = oldPlaneX * cos(rotation) - oldPlaneY * sin(rotation);
-				vars->player->planeY = oldPlaneX * sin(rotation) + oldPlaneY * cos(rotation);
+				double olddir_x = 0;
+				double olddir_y = -1;
+				vars->player->dir_x = olddir_x * cos(rotation) - olddir_y * sin(rotation);
+				vars->player->dir_y = olddir_x * sin(rotation) + olddir_y * cos(rotation);
+				double oldplane_x = 1;
+				double oldplane_y = 0;
+				vars->player->plane_x = oldplane_x * cos(rotation) - oldplane_y * sin(rotation);
+				vars->player->plane_y = oldplane_x * sin(rotation) + oldplane_y * cos(rotation);
 			}
 			else if (vars->keys & 0x1) // right
 			{
 				vars->player->rotation += M_PI / 72;
 
 				double rotation = vars->player->rotation;
-				double oldDirX = 0;
-				double oldDirY = -1;
-				vars->player->dirX = oldDirX * cos(rotation) - oldDirY * sin(rotation);
-				vars->player->dirY = oldDirX * sin(rotation) + oldDirY * cos(rotation);
-				double oldPlaneX = 1;
-				double oldPlaneY = 0;
-				vars->player->planeX = oldPlaneX * cos(rotation) - oldPlaneY * sin(rotation);
-				vars->player->planeY = oldPlaneX * sin(rotation) + oldPlaneY * cos(rotation);
+				double olddir_x = 0;
+				double olddir_y = -1;
+				vars->player->dir_x = olddir_x * cos(rotation) - olddir_y * sin(rotation);
+				vars->player->dir_y = olddir_x * sin(rotation) + olddir_y * cos(rotation);
+				double oldplane_x = 1;
+				double oldplane_y = 0;
+				vars->player->plane_x = oldplane_x * cos(rotation) - oldplane_y * sin(rotation);
+				vars->player->plane_y = oldplane_x * sin(rotation) + oldplane_y * cos(rotation);
 			}
 		}
 		// if (!((vars->keys & 32) && (vars->keys & 16)))
 		// {
 		// 	if (vars->keys & 16) // up
 		// 	{
-		// 		if(worldMap[(int)(vars->player->posY)][(int)(vars->player->posX + vars->player->planeX / 8)] == '0')
-		// 			vars->player->posX += (vars->player->planeX / 8);
-		// 		if(worldMap[(int)(vars->player->posY + vars->player->planeY / 8)][(int)(vars->player->posX)] == '0')
-		// 			vars->player->posY += (vars->player->planeY / 8);
+		// 		if(worldMap[(int)(vars->player->pos_y)][(int)(vars->player->pos_x + vars->player->plane_x / 8)] == '0')
+		// 			vars->player->pos_x += (vars->player->plane_x / 8);
+		// 		if(worldMap[(int)(vars->player->pos_y + vars->player->plane_y / 8)][(int)(vars->player->pos_x)] == '0')
+		// 			vars->player->pos_y += (vars->player->plane_y / 8);
 		// 	}
 		// 	else if (vars->keys & 32) // down
 		// 	{
-		// 		if(worldMap[(int)(vars->player->posY)][(int)(vars->player->posX - vars->player->planeX / 8)] == '0')
-		// 			vars->player->posX -= (vars->player->planeX / 8);
-		// 		if(worldMap[(int)(vars->player->posY - vars->player->planeY / 8)][(int)(vars->player->posX)] == '0')
-		// 			vars->player->posY -= (vars->player->planeY / 8);
+		// 		if(worldMap[(int)(vars->player->pos_y)][(int)(vars->player->pos_x - vars->player->plane_x / 8)] == '0')
+		// 			vars->player->pos_x -= (vars->player->plane_x / 8);
+		// 		if(worldMap[(int)(vars->player->pos_y - vars->player->plane_y / 8)][(int)(vars->player->pos_x)] == '0')
+		// 			vars->player->pos_y -= (vars->player->plane_y / 8);
 		// 	}
 		// }
 	}
@@ -592,6 +587,7 @@ int	render_next_frame(t_vars *vars)
 		vars->player->rotation = 0;
 	return (0);
 }
+
 
 int main(int argc, char **argv)
 {
@@ -618,15 +614,15 @@ int main(int argc, char **argv)
 	ml_mlx_init(&ml_mlx);
 	t_player player;
 	player.rotation = 0;
-	player.posX = 8.5;
-	player.posY = 8.5;
+	player.pos_x = 8.5;
+	player.pos_y = 8.5;
 
 	//FACING NORTH FOR THE FIRST TIME OF RUN
-	player.dirX = 0;
-	player.dirY = -1;
-	player.planeX = 1;
-	// player.planeY = 0.66;
-	player.planeY = 0;
+	player.dir_x = 0;
+	player.dir_y = -1;
+	player.plane_x = 1;
+	// player.plane_y = 0.66;
+	player.plane_y = 0;
 	ml_mlx.player = &player;
 
 	find_player_pos(&ml_mlx);
@@ -636,17 +632,17 @@ int main(int argc, char **argv)
 	t_tex texture;
 	// printf("T_TEX\n");
 	texture.n.img = 0;
-	texture.n.img = mlx_xpm_file_to_image(ml_mlx.mlx, "/Users/minsulee/Desktop/cub3d/cub3D/srcs/north.xpm", &texture.n_width, &texture.n_height);
+	texture.n.img = mlx_xpm_file_to_image(ml_mlx.mlx, ml_mlx.map->no_path, &texture.n_width, &texture.n_height);
 	texture.n.addr = 0;
 	texture.n.addr = mlx_get_data_addr(texture.n.img, &texture.n.bits_per_pixel, &texture.n.line_length, &texture.n.endian);
 	// printf("%p %p\n", texture.n.img, texture.n.addr);
-	texture.s.img = mlx_xpm_file_to_image(ml_mlx.mlx, "/Users/minsulee/Desktop/cub3d/cub3D/srcs/south.xpm", &texture.s_width, &texture.s_height);
+	texture.s.img = mlx_xpm_file_to_image(ml_mlx.mlx, ml_mlx.map->so_path, &texture.s_width, &texture.s_height);
 	texture.s.addr = mlx_get_data_addr(texture.s.img, &texture.s.bits_per_pixel, &texture.s.line_length, &texture.s.endian);
 	// printf("%p %p\n", texture.s.img, texture.s.addr);
-	texture.e.img = mlx_xpm_file_to_image(ml_mlx.mlx, "/Users/minsulee/Desktop/cub3d/cub3D/srcs/east.xpm", &texture.e_width, &texture.e_height);
+	texture.e.img = mlx_xpm_file_to_image(ml_mlx.mlx, ml_mlx.map->ea_path, &texture.e_width, &texture.e_height);
 	texture.e.addr = mlx_get_data_addr(texture.e.img, &texture.e.bits_per_pixel, &texture.e.line_length, &texture.e.endian);
 	// printf("%p %p\n", texture.e.img, texture.e.addr);
-	texture.w.img = mlx_xpm_file_to_image(ml_mlx.mlx, "/Users/minsulee/Desktop/cub3d/cub3D/srcs/west.xpm", &texture.w_width, &texture.w_height);
+	texture.w.img = mlx_xpm_file_to_image(ml_mlx.mlx, ml_mlx.map->we_path, &texture.w_width, &texture.w_height);
 	texture.w.addr = mlx_get_data_addr(texture.w.img, &texture.w.bits_per_pixel, &texture.w.line_length, &texture.w.endian);
 	// printf("%p %p\n", texture.w.img, texture.w.addr);
 	ml_mlx.tex = &texture;
@@ -654,9 +650,9 @@ int main(int argc, char **argv)
 
 	printf("NOT INIT PART\n");
 	// printf("rotation : %f\n", player.rotation);
-	// printf("posX posY : %f :: %f \n", player.posX, player.posY);
-	// printf("dirX dirY : %f :: %f \n", player.dirX, player.dirY);
-	// printf("planeX planeY : %f :: %f \n", player.planeX, player.planeY);
+	// printf("pos_x pos_y : %f :: %f \n", player.pos_x, player.pos_y);
+	// printf("dir_x dir_y : %f :: %f \n", player.dir_x, player.dir_y);
+	// printf("plane_x plane_y : %f :: %f \n", player.plane_x, player.plane_y);
 	// t_signal ml_sign;
 	// ml_mlx.keys = &ml_sign;
 

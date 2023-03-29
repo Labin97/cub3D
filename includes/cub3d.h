@@ -6,7 +6,7 @@
 /*   By: yim <yim@student.42seoul.kr>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/20 14:53:12 by yim               #+#    #+#             */
-/*   Updated: 2023/03/29 14:31:37 by yim              ###   ########.fr       */
+/*   Updated: 2023/03/29 19:38:11 by yim              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,10 +40,12 @@ typedef struct s_map
 
 typedef struct s_player
 {
-	double	posX;
-	double	posY;
-	double	dirX, dirY;
-	double	planeX, planeY;
+	double	pos_x;
+	double	pos_y;
+	double	dir_x;
+	double	dir_y;
+	double	plane_x;
+	double	plane_y;
 	double	rotation;
 
 }	t_player;
