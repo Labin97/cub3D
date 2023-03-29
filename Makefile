@@ -2,8 +2,7 @@ NAME 		= cub3D
 # CFLAGS		= -Wall -Wextra -Werror
 INCLUDES	= includes
 mlx_LIB 	= -lmlx -framework OpenGL -framework AppKit
-SOURCES 	= srcs/main.c\
-			srcs/init_color.c\
+SOURCES 	= srcs/init_color.c\
 			srcs/init_texture.c\
 			srcs/error.c\
 			srcs/map_parsing.c\

@@ -6,7 +6,7 @@
 /*   By: yim <yim@student.42seoul.kr>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/20 14:53:12 by yim               #+#    #+#             */
-/*   Updated: 2023/03/23 15:33:44 by yim              ###   ########.fr       */
+/*   Updated: 2023/03/29 14:31:37 by yim              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,9 @@
 # include <math.h>
 # include <fcntl.h>
 # include "libft.h"
+
+# define SCREEN_WIDTH 1920
+# define SCREEN_HEIGHT 1080
 
 typedef struct s_map
 {
@@ -34,6 +37,67 @@ typedef struct s_map
 	char	*ea_path;
 	char	**map;
 }	t_map;
+
+typedef struct s_player
+{
+	double	posX;
+	double	posY;
+	double	dirX, dirY;
+	double	planeX, planeY;
+	double	rotation;
+
+}	t_player;
+
+typedef struct s_data
+{
+	void	*img;
+	char	*addr;
+	int		bits_per_pixel;
+	int		line_length;
+	int		endian;
+}	t_data;
+
+typedef struct s_tex
+{
+	// void	*n;
+	int		n_width;
+	int		n_height;
+	t_data	n;
+
+	// void	*s;
+	int		s_width;
+	int		s_height;
+	t_data	s;
+
+	// void	*e;
+	int		e_width;
+	int		e_height;
+	t_data	e;
+
+	// void	*w;
+	int		w_width;
+	int		w_height;
+	t_data	w;
+}	t_tex;
+
+typedef struct s_vars
+{
+	void			*mlx;
+	void			*win;
+	struct s_data	data;
+	// double			rotate_x;
+	// double			rotate_y;
+	// double			rotate_z;
+	// int				width;
+	// int				height;
+	// int				scale;
+	// int				signal;
+	t_player		*player;
+	t_map			*map;
+	int				keys;
+	t_tex			*tex;
+
+}				t_vars;
 
 // error
 int		print_error(char *str, int i);
