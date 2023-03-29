@@ -6,7 +6,7 @@
 /*   By: minsulee <minsulee@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/23 14:33:01 by minsulee          #+#    #+#             */
-/*   Updated: 2023/03/29 15:52:07 by minsulee         ###   ########.fr       */
+/*   Updated: 2023/03/29 16:31:47 by minsulee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -253,7 +253,7 @@ void	projection_shoot(t_map *map, t_projection *projection)
 				projection->side = 1;
 			}
 			//Check if ray has hit a wall
-			if (map->map[projection->mapY][projection->mapX] > '0') // FIX IT TO mapY mapX. IMPORTANT!!!!!!!!!!!!!!!!!!!!!!!!!
+			if (map->map[projection->mapY][projection->mapX] == '1') // FIX IT TO mapY mapX. IMPORTANT!!!!!!!!!!!!!!!!!!!!!!!!!
 				projection->hit = 1;
 		}
 		// double perpWallDist;
@@ -389,271 +389,13 @@ int	project_once(t_vars *ml_mlx, t_map *map, t_player *player)
 	int x = 0, y = 0;
 	while (x < SCREEN_WIDTH)
 	{
-		// ft_memset(&projection, 0, sizeof(t_projection));
 		projection_init(&projection, x, player);
-		// double cameraX; // 여기서만 씀
-		// projection.cameraX = 2 * (x - 1) / (double)SCREEN_WIDTH - 1;
-		// projection.rayDirX = player->dirX + player->planeX * projection.cameraX;
-		// projection.rayDirY = player->dirY + player->planeY * projection.cameraX;
-		// //DEL cameraX
-
-		// //SET HOW LONG A RAY WILL GO THROUGH X AXIS AND Y AXIS
-		// // double deltaDistX;// = fabs(1 / rayDirX);
-		// if (projection.rayDirX == 0)
-		// 	projection.deltaDistX = __DBL_MAX__;
-		// else
-		// 	projection.deltaDistX = fabs(1 / projection.rayDirX);
-		
-		// // double projection.deltaDistY;// = fabs(1 / rayDirY);
-		// if (projection.rayDirY == 0)
-		// 	projection.deltaDistY = __DBL_MAX__;
-		// else
-		// 	projection.deltaDistY = fabs(1 / projection.rayDirY);
-
-
-		// double wall_distance;
-		// projection.cameraX = 2 * (x - 1) / (double)SCREEN_WIDTH - 1;
-		// projection.rayDirX = player->dirX + player->planeX * projection.cameraX;
-		// projection.rayDirY = player->dirY + player->planeY * projection.cameraX;
-		// projection.hit = 0;
-		// projection.side = 0;
-		// if (projection.rayDirX == 0)
-		// 	projection.deltaDistX = __DBL_MAX__;
-		// 	else
-		// 	projection.deltaDistX = fabs(1 / projection.rayDirX);
-		
-		// if (projection.rayDirY == 0)
-		// 	projection.deltaDistY = __DBL_MAX__;
-		// 	else
-		// 	projection.deltaDistY = fabs(1 / projection.rayDirY);
-		// projection.mapX = (int) player->posX;
-		// projection.mapY = (int) player->posY;
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-		// int hit = 0;
-		// int side;
-
-		
-		// int mapX = (int) player->posX;
-		// int mapY = (int) player->posY;
-
-
-		// double	sideDistX;
-		// double	sideDistY;
-
-		// int stepX;
-		// int stepY;
-
-		// int hit = 0;
-		// int side;
-
-
-
-
-		//SET STEP AND STARTING_DISTANCE
 		projection_direction_set(&projection);
-		// if (rayDirX < 0)
-		// {
-		// 	stepX = -1;
-		// 	sideDistX = (posX - mapX) * deltaDistX;
-		// }
-		// else
-		// {
-		// 	stepX = 1;
-		// 	sideDistX = (mapX + 1.0 - posX) * deltaDistX;
-		// }
-		// if (rayDirY < 0)
-		// {
-		// 	stepY = -1;
-		// 	sideDistY = (posY - mapY) * deltaDistY;
-		// }
-		// else
-		// {
-		// 	stepY = 1;
-		// 	sideDistY = (mapY + 1.0 - posY) * deltaDistY;
-		// }
-
-
-		//SHOOT THE RAY AND SEE WHERE IT ARRIVES
 		projection_shoot(ml_mlx->map, &projection);
-		// while (hit == 0)
-		// {
-		// 	//jump to next map square, either in x-direction, or in y-direction
-		// 	if (sideDistX < sideDistY)
-		// 	{
-		// 		sideDistX += deltaDistX;
-		// 		mapX += stepX;
-		// 		side = 0;
-		// 	}
-		// 	else
-		// 	{
-		// 		sideDistY += deltaDistY;
-		// 		mapY += stepY;
-		// 		side = 1;
-		// 	}
-		// 	//Check if ray has hit a wall
-		// 	if (worldMap[mapY][mapX] > '0') // FIX IT TO mapY mapX. IMPORTANT!!!!!!!!!!!!!!!!!!!!!!!!!
-		// 		hit = 1;
-		// }
-
-
-		// double perpWallDist;
-		// if(side == 0) perpWallDist = (sideDistX - deltaDistX);
-		// else          perpWallDist = (sideDistY - deltaDistY);
-
-		// if (side == 0)
-		// 	perpWallDist = (mapX - posX + (1 - stepX) / 2) / rayDirX;
-		// else
-		// 	perpWallDist = (mapY - posY + (1 - stepY) / 2) / rayDirY;
-
-
-
-		//Calculate height of line to draw on screen
 		projection_height(&projection);
-		// int lineHeight = (int)(SCREEN_HEIGHT / perpWallDist);
-
-		// //calculate lowest and highest pixel to fill in current stripe
-		// int drawStart = -lineHeight / 2 + SCREEN_HEIGHT / 2;
-		// if(drawStart < 0)
-		// 	drawStart = 0;
-		// int drawEnd = lineHeight / 2 + SCREEN_HEIGHT / 2;
-		// if (drawEnd >= SCREEN_HEIGHT)
-		// 	drawEnd = SCREEN_HEIGHT - 1;
-
-		// projection.lineHeight = (int)(SCREEN_HEIGHT / projection.perpWallDist);
-
-		// //calculate lowest and highest pixel to fill in current stripe
-		// projection.drawStart = -projection.lineHeight / 2 + SCREEN_HEIGHT / 2;
-		// if (projection.drawStart < 0)
-		// 	projection.drawStart = 0;
-		// projection.drawEnd = projection.lineHeight / 2 + SCREEN_HEIGHT / 2;
-		// if (projection.drawEnd >= SCREEN_HEIGHT)
-		// 	projection.drawEnd = SCREEN_HEIGHT - 1;
 		projection_side(&projection);
-		// if (side == 1) // west east
-		// {
-		// 	if (stepY < 0) //west
-		// 		side = 0;
-		// 	else //east
-		// 		side = 1;
-		// }
-		// else // north south, side == 0
-		// {
-		// 	if (stepX < 0) //north
-		// 		side = 2;
-		// 	else //south
-		// 		side = 3;
-		// }
-
-
-		// double wallX; //exact value where the wall was hit.
-		// if (side >= 2)
-		// 	wallX = posY + perpWallDist * rayDirY;
-		// else
-		// 	wallX = posX + perpWallDist * rayDirX;
-		// // if (x == SCREEN_WIDTH / 2)
-		// // 	printf("side : %d, previous WallX : %f, ", side, wallX);
-		// wallX -= floor(wallX);
-
-
-
-		//x coordinate on the texture
-		// double		texWidth;
-		// double		texHeight;
-		// int			*texture;
-
-
 		projection_texture(ml_mlx->tex, &projection);
-		// if (side == 0)
-		// {
-		// 	texture = (int *)ml_mlx->tex->n.addr;
-		// 	texWidth = ml_mlx->tex->n_width;
-		// 	texHeight = ml_mlx->tex->n_height;
-		// }
-		// else if (side == 1)
-		// {
-		// 	texture = (int *)ml_mlx->tex->s.addr;
-		// 	texWidth = ml_mlx->tex->s_width;
-		// 	texHeight = ml_mlx->tex->s_height;
-		// }
-		// if (side == 2)
-		// {
-		// 	texture = (int *)ml_mlx->tex->w.addr;
-		// 	texWidth = ml_mlx->tex->w_width;
-		// 	texHeight = ml_mlx->tex->w_height;
-		// }
-		// else if (side == 3)
-		// {
-		// 	texture = (int *)ml_mlx->tex->e.addr;
-		// 	texWidth = ml_mlx->tex->e_width;
-		// 	texHeight = ml_mlx->tex->e_height;
-		// }
-
-
-
-		//temporary
-		// texWidth = 64;
-		// texHeight = 64;
-
-
-
-		// int	texX = (int)(wallX * texWidth);
-		// int texY;
-		// if (side == 3 || side == 0)
-		// 	texX = texWidth - texX - 1;
-		// // if (x == SCREEN_WIDTH / 2)
-		// // {
-		// // 	// printf("posX : %f, posY : %f, rayDirX : %f, rayDirY : %f, perpWallDist : %f, WallX : %f, TEXWIDTH : %f, texX : %d\n", posX, posY, rayDirX, rayDirY, perpWallDist, wallX, texWidth, texX);
-		// // 	// printf")
-		// // }
-		// int	color;
-		// double step = 1.0 * texHeight / lineHeight;
-		// double texPos = (drawStart - (SCREEN_HEIGHT / 2) + lineHeight / 2) * step;
-		// for (int y = drawStart; y < drawEnd; y++)
-		// {
-		// 	texY = (int)(texPos) & (int)(texHeight - 1);
-		// 	texPos += step;
-		// 	color = texture[(int)texWidth * texY + texX];
-		// 	ml_mlx_put_pixel(&ml_mlx->data, x, y, color);
-		// }
-
 		projection_draw(ml_mlx, &projection, x);
-
-
-		// int	texX = (int)(projection.wallX * projection.texWidth);
-		// int texY;
-		// if (projection.side == 3 || projection.side == 0)
-		// 	texX = projection.texWidth - texX - 1;
-		// if (x == SCREEN_WIDTH / 2)
-		// {
-		// 	printf("posX : %f, posY : %f, rayDirX : %f, rayDirY : %f, perpWallDist : %f, WallX : %f, TEXWIDTH : %f, texX : %d\n", projection.posX, projection.posY, projection.rayDirX, projection.rayDirY, projection.perpWallDist, projection.wallX, projection.texWidth, texX);
-		// 	printf("\n");
-		// }
-		// int	color;
-		// double step = 1.0 * projection.texHeight / projection.lineHeight;
-		// double texPos = (projection.drawStart - (SCREEN_HEIGHT / 2) + projection.lineHeight / 2) * step;
-		// for (int y = projection.drawStart; y < projection.drawEnd; y++)
-		// {
-		// 	texY = (int)(texPos) & (int)(projection.texHeight - 1);
-		// 	texPos += step;
-		// 	color = projection.texture[(int)projection.texWidth * texY + texX];
-		// 	ml_mlx_put_pixel(&ml_mlx->data, x, y, color);
-		// }
 		x++;
 	}
 
@@ -699,7 +441,9 @@ void	find_player_pos(t_vars *ml_mlx)
 				else if (ml_mlx->map->map[i][j] == 'E')
 					ml_mlx->player->dirX = 1;
 			}
+			j++;
 		}
+		i++;
 	}
 }
 
@@ -730,9 +474,9 @@ int	key_press_hook(int key, t_vars *vars)
 	printf("key press:: %d\n", key);
 	if (key == 53)
 		exit(0);
-	else if (key == 123 && !(vars->keys & 0x32)) // left arrow key
+	else if (key == 123 && !(vars->keys & 32)) // left arrow key
 		vars->keys += 32;
-	else if (key == 124 && !(vars->keys & 0x16)) // right arrow key
+	else if (key == 124 && !(vars->keys & 16)) // right arrow key
 		vars->keys += 16;
 	else if (key == 13 && !(vars->keys & 0x8)) // up
 		vars->keys += 8;
@@ -748,9 +492,9 @@ int	key_press_hook(int key, t_vars *vars)
 int key_release_hook(int key, t_vars *vars)
 {
 	printf("key release:: %d\n", key);
-	if (key == 123 && (vars->keys & 0x32)) // left arrow key
+	if (key == 123 && (vars->keys & 32)) // left arrow key
 		vars->keys -= 32;
-	else if (key == 124 && (vars->keys & 0x16)) // right arrow key
+	else if (key == 124 && (vars->keys & 16)) // right arrow key
 		vars->keys -= 16;
 	else if (key == 13 && (vars->keys & 0x8)) // up
 		vars->keys -= 8;
@@ -780,19 +524,20 @@ int	render_next_frame(t_vars *vars)
 		{
 			if (vars->keys & 0x8) // up
 			{
-				if(worldMap[(int)(vars->player->posY)][(int)(vars->player->posX + vars->player->dirX / 8)] == '0')
+				if(worldMap[(int)(vars->player->posY)][(int)(vars->player->posX + vars->player->dirX / 8)] != '1')
 					vars->player->posX += (vars->player->dirX / 8);
-				if(worldMap[(int)(vars->player->posY + vars->player->dirY / 8)][(int)(vars->player->posX)] == '0')
+				if(worldMap[(int)(vars->player->posY + vars->player->dirY / 8)][(int)(vars->player->posX)] != '1')
 					vars->player->posY += (vars->player->dirY / 8);
 			}
 			else if (vars->keys & 0x2) // down
 			{
-				if(worldMap[(int)(vars->player->posY)][(int)(vars->player->posX - vars->player->dirX / 8)] == '0')
+				if(worldMap[(int)(vars->player->posY)][(int)(vars->player->posX - vars->player->dirX / 8)] != '1')
 					vars->player->posX -= (vars->player->dirX / 8);
-				if(worldMap[(int)(vars->player->posY - vars->player->dirY / 8)][(int)(vars->player->posX)] == '0')
+				if(worldMap[(int)(vars->player->posY - vars->player->dirY / 8)][(int)(vars->player->posX)] != '1')
 					vars->player->posY -= (vars->player->dirY / 8);
 			}
 		}
+		if (!((vars->keys & 0x4) && (vars->keys & 0x1)))
 		if (!((vars->keys & 0x4) && (vars->keys & 0x1)))
 		{
 			if (vars->keys & 0x4) // left
@@ -824,24 +569,23 @@ int	render_next_frame(t_vars *vars)
 				vars->player->planeY = oldPlaneX * sin(rotation) + oldPlaneY * cos(rotation);
 			}
 		}
-		// if (!((vars->keys & 0x32) && (vars->keys & 0x16)))
+		// if (!((vars->keys & 32) && (vars->keys & 16)))
 		// {
-		// 	if (vars->keys & 0x32) // up
+		// 	if (vars->keys & 16) // up
 		// 	{
-		// 		if(worldMap[(int)(vars->player->posY)][(int)(vars->player->posX + vars->player->dirX / 8)] == '0')
-		// 			vars->player->posX += (vars->player->dirX / 8);
-		// 		if(worldMap[(int)(vars->player->posY + vars->player->dirY / 8)][(int)(vars->player->posX)] == '0')
-		// 			vars->player->posY += (vars->player->dirY / 8);
+		// 		if(worldMap[(int)(vars->player->posY)][(int)(vars->player->posX + vars->player->planeX / 8)] == '0')
+		// 			vars->player->posX += (vars->player->planeX / 8);
+		// 		if(worldMap[(int)(vars->player->posY + vars->player->planeY / 8)][(int)(vars->player->posX)] == '0')
+		// 			vars->player->posY += (vars->player->planeY / 8);
 		// 	}
-		// 	else if (vars->keys & 0x16) // down
+		// 	else if (vars->keys & 32) // down
 		// 	{
-		// 		if(worldMap[(int)(vars->player->posY)][(int)(vars->player->posX - vars->player->dirX / 8)] == '0')
-		// 			vars->player->posX -= (vars->player->dirX / 8);
-		// 		if(worldMap[(int)(vars->player->posY - vars->player->dirY / 8)][(int)(vars->player->posX)] == '0')
-		// 			vars->player->posY -= (vars->player->dirY / 8);
+		// 		if(worldMap[(int)(vars->player->posY)][(int)(vars->player->posX - vars->player->planeX / 8)] == '0')
+		// 			vars->player->posX -= (vars->player->planeX / 8);
+		// 		if(worldMap[(int)(vars->player->posY - vars->player->planeY / 8)][(int)(vars->player->posX)] == '0')
+		// 			vars->player->posY -= (vars->player->planeY / 8);
 		// 	}
 		// }
-
 	}
 	project_once(vars, vars->map, vars->player);
 	if (fabs(vars->player->rotation) >= 6.28)
@@ -885,12 +629,14 @@ int main(int argc, char **argv)
 	player.planeY = 0;
 	ml_mlx.player = &player;
 
+	find_player_pos(&ml_mlx);
+
 	// printf("INIT PART\n");
 
 	t_tex texture;
 	// printf("T_TEX\n");
 	texture.n.img = 0;
-	texture.n.img = mlx_xpm_file_to_image(ml_mlx.mlx, "/Users/yim/42/4_c/cub3D/srcs/OIP-1.xpm", &texture.n_width, &texture.n_height);
+	texture.n.img = mlx_xpm_file_to_image(ml_mlx.mlx, "/Users/minsulee/Desktop/cub3d/cub3D/srcs/north.xpm", &texture.n_width, &texture.n_height);
 	texture.n.addr = 0;
 	texture.n.addr = mlx_get_data_addr(texture.n.img, &texture.n.bits_per_pixel, &texture.n.line_length, &texture.n.endian);
 	// printf("%p %p\n", texture.n.img, texture.n.addr);
