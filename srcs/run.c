@@ -6,7 +6,7 @@
 /*   By: minsulee <minsulee@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/23 14:33:01 by minsulee          #+#    #+#             */
-/*   Updated: 2023/03/28 18:07:07 by minsulee         ###   ########.fr       */
+/*   Updated: 2023/03/29 13:59:47 by minsulee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,33 +18,33 @@
 // #define screenWidth 640
 // #define screenHeight 480
 
-int worldMap[mapHeight][mapWidth]=
-{
-  {1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1},
-  {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-  {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-  {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-  {1,0,0,0,0,0,2,2,2,2,2,0,0,0,0,3,0,3,0,3,0,0,0,1},
-  {1,0,0,0,0,0,2,0,0,0,2,0,0,0,0,0,0,0,0,0,0,0,0,1},
-  {1,0,0,0,0,0,2,0,0,0,2,0,0,0,0,3,0,0,0,3,0,0,0,1},
-  {1,0,0,0,0,0,2,0,0,0,2,0,0,0,0,0,0,0,0,0,0,0,0,1},
-  {1,0,0,0,0,0,2,2,0,2,2,0,0,0,0,3,0,3,0,3,0,0,0,1},
-  {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-  {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-  {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-  {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-  {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-  {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-  {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-  {1,4,4,4,4,4,4,4,4,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-  {1,4,0,4,0,0,0,0,4,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-  {1,4,0,0,0,0,5,0,4,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-  {1,4,0,4,0,0,0,0,4,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-  {1,4,0,4,4,4,4,4,4,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-  {1,4,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-  {1,4,4,4,4,4,4,4,4,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-  {1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1}
-};
+// int worldMap[mapHeight][mapWidth]=
+// {
+//   {1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1},
+//   {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
+//   {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
+//   {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
+//   {1,0,0,0,0,0,2,2,2,2,2,0,0,0,0,3,0,3,0,3,0,0,0,1},
+//   {1,0,0,0,0,0,2,0,0,0,2,0,0,0,0,0,0,0,0,0,0,0,0,1},
+//   {1,0,0,0,0,0,2,0,0,0,2,0,0,0,0,3,0,0,0,3,0,0,0,1},
+//   {1,0,0,0,0,0,2,0,0,0,2,0,0,0,0,0,0,0,0,0,0,0,0,1},
+//   {1,0,0,0,0,0,2,2,0,2,2,0,0,0,0,3,0,3,0,3,0,0,0,1},
+//   {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
+//   {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
+//   {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
+//   {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
+//   {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
+//   {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
+//   {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
+//   {1,4,4,4,4,4,4,4,4,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
+//   {1,4,0,4,0,0,0,0,4,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
+//   {1,4,0,0,0,0,5,0,4,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
+//   {1,4,0,4,0,0,0,0,4,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
+//   {1,4,0,4,4,4,4,4,4,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
+//   {1,4,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
+//   {1,4,4,4,4,4,4,4,4,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
+//   {1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1}
+// };
 
 
 
@@ -140,38 +140,76 @@ void	ml_mlx_put_pixel(t_data *data, int x, int y, int color)
 	*(unsigned int *)dst = color;
 }
 
-void	ml_mlx_draw_line(t_data *data, int x, int drawStart, int drawEnd, int color)
-{
-	int index;
+// void	ml_mlx_draw_line(t_data *data, int x, int drawStart, int drawEnd, int color)
+// {
+// 	int index;
 
-	index = drawStart;
-	while (index <= drawEnd)
+// 	index = drawStart;
+// 	while (index <= drawEnd)
+// 	{
+// 		ml_mlx_put_pixel(data, x, index, color);
+// 		index++;
+// 	}
+// }
+
+// void	ml_mlx_clear_window(t_vars *vars)
+// {
+// 	int	x;
+// 	int	y;
+
+// 	y = 0;
+// 	while (y < SCREEN_HEIGHT)
+// 	{
+// 		x = 0;
+// 		while (x < SCREEN_WIDTH)
+// 		{
+// 			ml_mlx_put_pixel(&vars->data, x, y, 0x00000000);
+// 			x++;
+// 		}
+// 		y++;
+// 	}
+// 	mlx_put_image_to_window(vars->mlx, vars->win, vars->data.img, 0, 0);
+// }
+
+void	ml_mlx_ceiling(t_vars *vars, int color)
+{
+	int	half_height;
+	int y;
+	int x;
+
+	y = 0;
+	x = 0;
+	half_height = SCREEN_HEIGHT / 2;
+	while (y < half_height)
 	{
-		ml_mlx_put_pixel(data, x, index, color);
-		index++;
+		x = 0;
+		while (x < SCREEN_WIDTH)
+		{
+			ml_mlx_put_pixel(&vars->data, x, y, color);
+			x++;
+		}
+		y++;
 	}
 }
 
-void	ml_mlx_clear_window(t_vars *vars)
+void	ml_mlx_floor(t_vars *vars, int color)
 {
-	int	x;
-	int	y;
+	int y;
+	int x;
 
-	y = 0;
+	y = SCREEN_HEIGHT / 2;
+	x = 0;
 	while (y < SCREEN_HEIGHT)
 	{
 		x = 0;
 		while (x < SCREEN_WIDTH)
 		{
-			ml_mlx_put_pixel(&vars->data, x, y, 0x00000000);
+			ml_mlx_put_pixel(&vars->data, x, y, color);
 			x++;
 		}
 		y++;
 	}
-	mlx_put_image_to_window(vars->mlx, vars->win, vars->data.img, 0, 0);
 }
-
-
 
 int	project_once(t_vars *ml_mlx, t_map *map, t_player *player)
 {
@@ -184,8 +222,12 @@ int	project_once(t_vars *ml_mlx, t_map *map, t_player *player)
 
 	// printf("PROJECT ONCE\n");
 
-	ml_mlx_clear_window(ml_mlx);
+	// ml_mlx_clear_window(ml_mlx);
+	ml_mlx_ceiling(ml_mlx, ml_mlx->map->ceiling);
+	ml_mlx_floor(ml_mlx, ml_mlx->map->floor);
 
+
+	char **worldMap = ml_mlx->map->map;
 
 	double posX = player->posX;
 	// posX = 22; // test
@@ -198,7 +240,7 @@ int	project_once(t_vars *ml_mlx, t_map *map, t_player *player)
 		double cameraX;
 		// cameraX = (2 * (x + 1) / (double(1920)) - 1);
 		// cameraX = 2 * (x + 1) / (double)SCREEN_WIDTH - 1;
-		cameraX = 2 * x / (double)SCREEN_WIDTH - 1;
+		cameraX = 2 * (x - 1) / (double)SCREEN_WIDTH - 1;
 		double rayDirX = player->dirX + player->planeX * cameraX;
 		double rayDirY = player->dirY + player->planeY * cameraX;
 
@@ -276,7 +318,7 @@ int	project_once(t_vars *ml_mlx, t_map *map, t_player *player)
 				side = 1;
 			}
 			//Check if ray has hit a wall
-			if (worldMap[mapY][mapX] > 0) // FIX IT TO mapY mapX. IMPORTANT!!!!!!!!!!!!!!!!!!!!!!!!!
+			if (worldMap[mapY][mapX] > '0') // FIX IT TO mapY mapX. IMPORTANT!!!!!!!!!!!!!!!!!!!!!!!!!
 				hit = 1;
 		} 
 
@@ -326,8 +368,8 @@ int	project_once(t_vars *ml_mlx, t_map *map, t_player *player)
 			wallX = posY + perpWallDist * rayDirY;
 		else
 			wallX = posX + perpWallDist * rayDirX;
-		if (x == SCREEN_WIDTH / 2)
-			printf("side : %d, previous WallX : %f, ", side, wallX);
+		// if (x == SCREEN_WIDTH / 2)
+		// 	printf("side : %d, previous WallX : %f, ", side, wallX);
 		wallX -= floor(wallX);
 
 
@@ -336,6 +378,21 @@ int	project_once(t_vars *ml_mlx, t_map *map, t_player *player)
 		double		texWidth;
 		double		texHeight;
 		int			*texture;
+
+
+
+		if (side == 0)
+		{
+			texture = (int *)ml_mlx->tex->n.addr;
+			texWidth = ml_mlx->tex->n_width;
+			texHeight = ml_mlx->tex->n_height;
+		}
+		else if (side == 1)
+		{
+			texture = (int *)ml_mlx->tex->s.addr;
+			texWidth = ml_mlx->tex->s_width;
+			texHeight = ml_mlx->tex->s_height;
+		}
 		if (side == 2)
 		{
 			texture = (int *)ml_mlx->tex->w.addr;
@@ -348,18 +405,8 @@ int	project_once(t_vars *ml_mlx, t_map *map, t_player *player)
 			texWidth = ml_mlx->tex->e_width;
 			texHeight = ml_mlx->tex->e_height;
 		}
-		else if (side == 0)
-		{
-			texture = (int *)ml_mlx->tex->n.addr;
-			texWidth = ml_mlx->tex->n_width;
-			texHeight = ml_mlx->tex->n_height;
-		}
-		else if (side == 1)
-		{
-			texture = (int *)ml_mlx->tex->s.addr;
-			texWidth = ml_mlx->tex->s_width;
-			texHeight = ml_mlx->tex->s_height;
-		}
+
+
 
 		//temporary
 		// texWidth = 64;
@@ -370,46 +417,23 @@ int	project_once(t_vars *ml_mlx, t_map *map, t_player *player)
 		int	texX = (int)(wallX * texWidth);
 		if (side == 3 || side == 0)
 			texX = texWidth - texX - 1;
-			// texX = texWidth - texX;
 		if (x == SCREEN_WIDTH / 2)
 		{
-			printf("posX : %f, posY : %f, rayDirX : %f, rayDirY : %f, perpWallDist : %f, WallX : %f, TEXWIDTH : %f, texX : %d\n", posX, posY, rayDirX, rayDirY, perpWallDist, wallX, texWidth, texX);
+			// printf("posX : %f, posY : %f, rayDirX : %f, rayDirY : %f, perpWallDist : %f, WallX : %f, TEXWIDTH : %f, texX : %d\n", posX, posY, rayDirX, rayDirY, perpWallDist, wallX, texWidth, texX);
 			// printf")
 		}
 
-
-		// printf("successfully put a pixel at %d %d\n", x, y);
 		double step = 1.0 * texHeight / lineHeight;
 		double texPos = (drawStart - (SCREEN_HEIGHT / 2) + lineHeight / 2) * step;
 		for (int y = drawStart; y < drawEnd; y++)
 		{
 			int texY = (int)(texPos) & (int)(texHeight - 1);
 			texPos += step;
-			// if ((int)texHeight * texY + texX >= 0)
 			color = texture[(int)texWidth * texY + texX];
-			// color = texture[(int)texHeight * texY + texX];
-			// HEIGHT?? WIDTH??
-
-
-			// if (x == SCREEN_WIDTH / 2)
-			// 	printf("%d\n", texX);
-			// else
-			// 	color = texture[0];
-			// printf("y : %d, color : %d\n", y, color);
-			// color = texture[64 * (int)texWidth + 64];
-			// color = 0xFFFFFF;
 			ml_mlx_put_pixel(&ml_mlx->data, x, y, color);
 		}
-		// exit (0);
-
-
-
-
-		// ml_mlx_draw_line(&ml_mlx->data, x, drawStart, drawEnd, color);
-
 		x++;
 	}
-	// usleep(100);
 
 
 
@@ -452,9 +476,13 @@ static void	ml_mlx_init(t_vars *ml_mlx)
 
 int	key_press_hook(int key, t_vars *vars)
 {
-	// printf("key press:: %d\n", key);
+	printf("key press:: %d\n", key);
 	if (key == 53)
 		exit(0);
+	else if (key == 123 && !(vars->keys & 0x32)) // left arrow key
+		vars->keys += 32;
+	else if (key == 124 && !(vars->keys & 0x16)) // right arrow key
+		vars->keys += 16;
 	else if (key == 13 && !(vars->keys & 0x8)) // up
 		vars->keys += 8;
 	else if (key == 0 && !(vars->keys & 0x4)) // left
@@ -468,8 +496,12 @@ int	key_press_hook(int key, t_vars *vars)
 
 int key_release_hook(int key, t_vars *vars)
 {
-	// printf("key release:: %d\n", key);
-	if (key == 13 && (vars->keys & 0x8)) // up
+	printf("key release:: %d\n", key);
+	if (key == 123 && (vars->keys & 0x32)) // left arrow key
+		vars->keys -= 32;
+	else if (key == 124 && (vars->keys & 0x16)) // right arrow key
+		vars->keys -= 16;
+	else if (key == 13 && (vars->keys & 0x8)) // up
 		vars->keys -= 8;
 	else if (key == 0 && (vars->keys & 0x4)) // left
 		vars->keys -= 4;
@@ -488,22 +520,25 @@ void leak_check(void)
 
 int	render_next_frame(t_vars *vars)
 {
+
+	char **worldMap = vars->map->map;
+	
 	if (vars->keys)
 	{
 		if (!((vars->keys & 0x8) && (vars->keys & 0x2)))
 		{
 			if (vars->keys & 0x8) // up
 			{
-				if(worldMap[(int)(vars->player->posY)][(int)(vars->player->posX + vars->player->dirX / 8)] == 0)
+				if(worldMap[(int)(vars->player->posY)][(int)(vars->player->posX + vars->player->dirX / 8)] == '0')
 					vars->player->posX += (vars->player->dirX / 8);
-				if(worldMap[(int)(vars->player->posY + vars->player->dirY / 8)][(int)(vars->player->posX)] == 0)
+				if(worldMap[(int)(vars->player->posY + vars->player->dirY / 8)][(int)(vars->player->posX)] == '0')
 					vars->player->posY += (vars->player->dirY / 8);
 			}
 			else if (vars->keys & 0x2) // down
 			{
-				if(worldMap[(int)(vars->player->posY)][(int)(vars->player->posX - vars->player->dirX / 8)] == 0)
+				if(worldMap[(int)(vars->player->posY)][(int)(vars->player->posX - vars->player->dirX / 8)] == '0')
 					vars->player->posX -= (vars->player->dirX / 8);
-				if(worldMap[(int)(vars->player->posY - vars->player->dirY / 8)][(int)(vars->player->posX)] == 0)
+				if(worldMap[(int)(vars->player->posY - vars->player->dirY / 8)][(int)(vars->player->posX)] == '0')
 					vars->player->posY -= (vars->player->dirY / 8);
 			}
 		}
@@ -571,8 +606,10 @@ int main(int argc, char **argv)
 	ml_mlx_init(&ml_mlx);
 	t_player player;
 	player.rotation = 0;
-	player.posX = 22;
-	player.posY = 12;
+	player.posX = 8.5;
+	player.posY = 8.5;
+
+	//FACING NORTH FOR THE FIRST TIME OF RUN
 	player.dirX = 0;
 	player.dirY = -1;
 	player.planeX = 1;
@@ -585,38 +622,19 @@ int main(int argc, char **argv)
 	t_tex texture;
 	// printf("T_TEX\n");
 	texture.n.img = 0;
-	// printf("TRY: FILE OPEN\n");
 	texture.n.img = mlx_xpm_file_to_image(ml_mlx.mlx, "/Users/minsulee/Desktop/cub3d/cub3D/srcs/north.xpm", &texture.n_width, &texture.n_height);
-	// printf("FILE OPEN\n");
 	texture.n.addr = 0;
 	texture.n.addr = mlx_get_data_addr(texture.n.img, &texture.n.bits_per_pixel, &texture.n.line_length, &texture.n.endian);
-
 	printf("%p %p\n", texture.n.img, texture.n.addr);
-	// printf("%d %d\n", texture.n_width, texture.n_height);
-
-	// for (int py = 0; py < texture.n_height; py++)
-	// {
-	// 	for (int px = 0; px < texture.n_width; px++)
-	// 	{
-	// 		printf("%X ", texture.n.addr[py * texture.n_width + px]);
-	// 	}
-	// 	printf("\n");
-	// }
-	// exit (0);
-
-	// printf("N DONE. FILE OPENED\n");
 	texture.s.img = mlx_xpm_file_to_image(ml_mlx.mlx, "/Users/minsulee/Desktop/cub3d/cub3D/srcs/south.xpm", &texture.s_width, &texture.s_height);
 	texture.s.addr = mlx_get_data_addr(texture.s.img, &texture.s.bits_per_pixel, &texture.s.line_length, &texture.s.endian);
 	printf("%p %p\n", texture.s.img, texture.s.addr);
-	printf("INIT2\n");
 	texture.e.img = mlx_xpm_file_to_image(ml_mlx.mlx, "/Users/minsulee/Desktop/cub3d/cub3D/srcs/east.xpm", &texture.e_width, &texture.e_height);
 	texture.e.addr = mlx_get_data_addr(texture.e.img, &texture.e.bits_per_pixel, &texture.e.line_length, &texture.e.endian);
 	printf("%p %p\n", texture.e.img, texture.e.addr);
-	printf("INIT3\n");
 	texture.w.img = mlx_xpm_file_to_image(ml_mlx.mlx, "/Users/minsulee/Desktop/cub3d/cub3D/srcs/west.xpm", &texture.w_width, &texture.w_height);
 	texture.w.addr = mlx_get_data_addr(texture.w.img, &texture.w.bits_per_pixel, &texture.w.line_length, &texture.w.endian);
 	printf("%p %p\n", texture.w.img, texture.w.addr);
-	printf("INIT4\n");
 	ml_mlx.tex = &texture;
 
 
