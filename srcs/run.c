@@ -6,15 +6,12 @@
 /*   By: minsulee <minsulee@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/23 14:33:01 by minsulee          #+#    #+#             */
-/*   Updated: 2023/03/29 15:49:36 by minsulee         ###   ########.fr       */
+/*   Updated: 2023/03/29 15:52:07 by minsulee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
-
-#define mapWidth 24
-#define mapHeight 24
 // #define screenWidth 640
 // #define screenHeight 480
 
@@ -48,17 +45,6 @@
 
 
 
-typedef struct s_player
-{
-	double	posX;
-	double	posY;
-	double	dirX, dirY;
-	double	planeX, planeY;
-
-	double	rotation;
-
-} t_player;
-
 // typedef struct s_signal
 // {
 // 	int signal;
@@ -67,63 +53,6 @@ typedef struct s_player
 // 	// char up;
 // 	// char down;
 // } t_signal;
-
-#define SCREEN_WIDTH 1920
-#define SCREEN_HEIGHT 1080
-
-
-typedef struct s_data
-{
-	void	*img;
-	char	*addr;
-	int		bits_per_pixel;
-	int		line_length;
-	int		endian;
-}				t_data;
-
-typedef struct s_tex
-{
-	// void	*n;
-	int		n_width;
-	int		n_height;
-	t_data	n;
-
-	// void	*s;
-	int		s_width;
-	int		s_height;
-	t_data	s;
-
-	// void	*e;
-	int		e_width;
-	int		e_height;
-	t_data	e;
-
-	// void	*w;
-	int		w_width;
-	int		w_height;
-	t_data	w;
-} t_tex;
-
-typedef struct s_vars
-{
-	void			*mlx;
-	void			*win;
-	struct s_data	data;
-	// double			rotate_x;
-	// double			rotate_y;
-	// double			rotate_z;
-	// int				width;
-	// int				height;
-	// int				scale;
-	t_player		*player;
-	t_map			*map;
-	int				keys;
-	t_tex			*tex;
-	// int				signal;
-
-}				t_vars;
-
-
 
 
 #include <limits.h>
@@ -745,10 +674,38 @@ int	project_once(t_vars *ml_mlx, t_map *map, t_player *player)
 }
 
 
+void	find_player_pos(t_vars *ml_mlx)
+{
+	int		i;
+	int		j;
 
+	i = 0;
+	while (i < ml_mlx->map->height)
+	{
+		j = 0;
+		while (j < ml_mlx->map->width)
+		{
+			if (ml_mlx->map->map[i][j] == 'N' || ml_mlx->map->map[i][j] == 'S' \
+			|| ml_mlx->map->map[i][j] == 'W' || ml_mlx->map->map[i][j] == 'E')
+			{
+				ml_mlx->player->posX = j + 0.5;
+				ml_mlx->player->posY = i + 0.5;
+				if (ml_mlx->map->map[i][j] == 'N')
+					ml_mlx->player->dirY = -1;
+				else if (ml_mlx->map->map[i][j] == 'S')
+					ml_mlx->player->dirY = 1;
+				else if (ml_mlx->map->map[i][j] == 'W')
+					ml_mlx->player->dirX = -1;
+				else if (ml_mlx->map->map[i][j] == 'E')
+					ml_mlx->player->dirX = 1;
+			}
+		}
+	}
+}
 
 static void	ml_mlx_init(t_vars *ml_mlx)
 {
+	// ft_memset(ml_mlx, 0, sizeof(t_vars));
 	ml_mlx->mlx = mlx_init();
 	ml_mlx->win = mlx_new_window(ml_mlx->mlx, \
 	SCREEN_WIDTH, SCREEN_HEIGHT, "minsulyim_cub3D");
@@ -756,6 +713,7 @@ static void	ml_mlx_init(t_vars *ml_mlx)
 	ml_mlx->data.addr = mlx_get_data_addr(ml_mlx->data.img, \
 		&(ml_mlx->data.bits_per_pixel), &(ml_mlx->data.line_length), \
 		&(ml_mlx->data.endian));
+	// find_player_pos(ml_mlx);
 	// ml_mlx->width = 0;
 	// ml_mlx->height = 0;
 	// ml_mlx->scale = 1;
@@ -932,7 +890,7 @@ int main(int argc, char **argv)
 	t_tex texture;
 	// printf("T_TEX\n");
 	texture.n.img = 0;
-	texture.n.img = mlx_xpm_file_to_image(ml_mlx.mlx, "/Users/minsulee/Desktop/cub3d/cub3D/srcs/north.xpm", &texture.n_width, &texture.n_height);
+	texture.n.img = mlx_xpm_file_to_image(ml_mlx.mlx, "/Users/yim/42/4_c/cub3D/srcs/OIP-1.xpm", &texture.n_width, &texture.n_height);
 	texture.n.addr = 0;
 	texture.n.addr = mlx_get_data_addr(texture.n.img, &texture.n.bits_per_pixel, &texture.n.line_length, &texture.n.endian);
 	// printf("%p %p\n", texture.n.img, texture.n.addr);
