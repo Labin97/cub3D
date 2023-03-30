@@ -7,7 +7,14 @@ SOURCES 	= srcs/init_color.c\
 			srcs/error.c\
 			srcs/map_parsing.c\
 			srcs/init_map.c\
-			srcs/run.c
+			srcs/run.c\
+			srcs/mlx_init.c\
+			srcs/projection.c\
+			srcs/projection2.c\
+			srcs/mlx_color.c\
+			srcs/texture_set.c\
+			srcs/render_frame.c\
+			srcs/hook.c
 
 OBJECTS = $(SOURCES:.c=.o)
 

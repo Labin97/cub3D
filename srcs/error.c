@@ -6,7 +6,7 @@
 /*   By: yim <yim@student.42seoul.kr>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/21 13:46:42 by yim               #+#    #+#             */
-/*   Updated: 2023/03/30 13:54:34 by yim              ###   ########.fr       */
+/*   Updated: 2023/03/30 19:07:47 by yim              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ int	print_error(char *str, int i)
 {
 	printf("Error\n");
 	printf("%s\n", str);
-	return (1);
+	return (i);
 }
 
 void	exit_error(char *str, int i, t_map *map)

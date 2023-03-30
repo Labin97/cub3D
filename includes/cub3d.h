@@ -6,7 +6,7 @@
 /*   By: yim <yim@student.42seoul.kr>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/20 14:53:12 by yim               #+#    #+#             */
-/*   Updated: 2023/03/30 17:32:06 by yim              ###   ########.fr       */
+/*   Updated: 2023/03/30 19:32:13 by yim              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@
 # include <stdlib.h>
 # include <math.h>
 # include <fcntl.h>
+# include <limits.h>
 # include "libft.h"
 
 # define SCREEN_WIDTH 1920
@@ -136,5 +137,27 @@ void	init_color(t_map *map, char *line, char c);
 void	init_map(t_map *map, char *line, int count);
 void	make_map(t_map *map, char *filename, int fd);
 void	check_surround_wall(t_map *map);
+
+// projection
+void	projection_draw(t_vars *ml_mlx, t_projection *projection, int x);
+void	projection_texture(t_tex *tex, t_projection *projection);
+void	projection_side(t_projection *projection);
+void	projection_height(t_projection *projection);
+
+//hook
+int		key_press_hook(int key, t_vars *vars);
+int		key_release_hook(int key, t_vars *vars);
+
+//mlx
+void	ml_mlx_ceiling(t_vars *vars, int color);
+void	ml_mlx_floor(t_vars *vars, int color);
+void	ml_mlx_put_pixel(t_data *data, int x, int y, int color);
+
+//main
+void	ml_mlx_init(t_vars *ml_mlx);
+void	texture_set(t_vars *ml_mlx);
+int		project_once(t_vars *ml_mlx, t_map *map, t_player *player);
+int		render_next_frame(t_vars *vars);
+int		destroy(t_vars *vars);
 
 #endif

@@ -1,7 +1,7 @@
-NO ./tmp/l.xpm
-SO ./tmp/c.xpm
-WE ./tmp/j.xpm
-EA ./tmp/w.xpm
+NO ./img/l.xpm
+SO ./img/c.xpm
+WE ./img/j.xpm
+EA ./img/w.xpm
 
 C 153, 204, 255
 F 123, 20, 10
