@@ -6,7 +6,7 @@
 /*   By: yim <yim@student.42seoul.kr>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/30 19:10:13 by yim               #+#    #+#             */
-/*   Updated: 2023/03/30 19:24:01 by yim              ###   ########.fr       */
+/*   Updated: 2023/03/30 20:10:54 by yim              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ void	find_player_pos(t_vars *ml_mlx)
 	while (++i < ml_mlx->map->height)
 	{
 		j = -1;
-		while (++j < ml_mlx->map->width)
+		while (++j < ml_mlx->map->width && ml_mlx->map->map[i][j])
 		{
 			if (ml_mlx->map->map[i][j] == 'N' || ml_mlx->map->map[i][j] == 'S' \
 			|| ml_mlx->map->map[i][j] == 'W' || ml_mlx->map->map[i][j] == 'E')
