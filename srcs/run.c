@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   run.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: minsulee <minsulee@student.42seoul.kr>     +#+  +:+       +#+        */
+/*   By: yim <yim@student.42seoul.kr>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/23 14:33:01 by minsulee          #+#    #+#             */
-/*   Updated: 2023/03/30 14:13:05 by minsulee         ###   ########.fr       */
+/*   Updated: 2023/03/30 14:39:14by yim              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -352,6 +352,7 @@ static void	ml_mlx_init(t_vars *ml_mlx)
 	ml_mlx->data.addr = mlx_get_data_addr(ml_mlx->data.img, \
 		&(ml_mlx->data.bits_per_pixel), &(ml_mlx->data.line_length), \
 		&(ml_mlx->data.endian));
+	ml_mlx->keys = 0;
 	// find_player_pos(ml_mlx);
 	// ml_mlx->width = 0;
 	// ml_mlx->height = 0;
@@ -428,18 +429,18 @@ void	render_next_frame_key_ad(t_vars *vars)
 	if (vars->keys & 32) // left
 	{
 		vars->player.rotation -= M_PI / 72;
-		vars->player.dir_x = + sin(vars->player.rotation);
-		vars->player.dir_y = - cos(vars->player.rotation);
-		vars->player.plane_x = - vars->player.dir_y;
-		vars->player.plane_y = + vars->player.dir_x;
+		vars->player.dir_x = +sin(vars->player.rotation);
+		vars->player.dir_y = -cos(vars->player.rotation);
+		vars->player.plane_x = -vars->player.dir_y;
+		vars->player.plane_y = +vars->player.dir_x;
 	}
 	else if (vars->keys & 16) // right
 	{
 		vars->player.rotation += M_PI / 72;
-		vars->player.dir_x = + sin(vars->player.rotation);
-		vars->player.dir_y = - cos(vars->player.rotation);
-		vars->player.plane_x = - vars->player.dir_y;
-		vars->player.plane_y = + vars->player.dir_x;
+		vars->player.dir_x = +sin(vars->player.rotation);
+		vars->player.dir_y = -cos(vars->player.rotation);
+		vars->player.plane_x = -vars->player.dir_y;
+		vars->player.plane_y = +vars->player.dir_x;
 	}
 }
 
@@ -509,10 +510,10 @@ void	find_player_pos(t_vars *ml_mlx)
 
 void	player_init(t_vars *ml_mlx)
 {
-	ml_mlx->player.dir_x = + sin(ml_mlx->player.rotation);
-	ml_mlx->player.dir_y = - cos(ml_mlx->player.rotation);
-	ml_mlx->player.plane_x = - ml_mlx->player.dir_y;
-	ml_mlx->player.plane_y = + ml_mlx->player.dir_x;
+	ml_mlx->player.dir_x = +sin(ml_mlx->player.rotation);
+	ml_mlx->player.dir_y = -cos(ml_mlx->player.rotation);
+	ml_mlx->player.plane_x = -ml_mlx->player.dir_y;
+	ml_mlx->player.plane_y = +ml_mlx->player.dir_x;
 }
 
 void leak_check(void)
@@ -521,53 +522,44 @@ void leak_check(void)
 }
 
 
+void	tex_img(t_vars *ml_mlx)
+{
+	ml_mlx->tex.n.img = 0;
+	ml_mlx->tex.n.img = mlx_xpm_file_to_image(ml_mlx->mlx, \
+	ml_mlx->map->no_path, &ml_mlx->tex.n_width, &ml_mlx->tex.n_height);
+	ml_mlx->tex.n.addr = 0;
+	ml_mlx->tex.n.addr = mlx_get_data_addr(ml_mlx->tex.n.img, \
+	&ml_mlx->tex.n.bits_per_pixel, &ml_mlx->tex.n.line_length, \
+	&ml_mlx->tex.n.endian);
+	ml_mlx->tex.s.img = mlx_xpm_file_to_image(ml_mlx->mlx, \
+	ml_mlx->map->so_path, &ml_mlx->tex.s_width, &ml_mlx->tex.s_height);
+	ml_mlx->tex.s.addr = mlx_get_data_addr(ml_mlx->tex.s.img, \
+	&ml_mlx->tex.s.bits_per_pixel, &ml_mlx->tex.s.line_length, \
+	&ml_mlx->tex.s.endian);
+	ml_mlx->tex.e.img = mlx_xpm_file_to_image(ml_mlx->mlx, \
+	ml_mlx->map->ea_path, &ml_mlx->tex.e_width, &ml_mlx->tex.e_height);
+	ml_mlx->tex.e.addr = mlx_get_data_addr(ml_mlx->tex.e.img, \
+	&ml_mlx->tex.e.bits_per_pixel, &ml_mlx->tex.e.line_length, \
+	&ml_mlx->tex.e.endian);
+	ml_mlx->tex.w.img = mlx_xpm_file_to_image(ml_mlx->mlx, \
+	ml_mlx->map->we_path, &ml_mlx->tex.w_width, &ml_mlx->tex.w_height);
+	ml_mlx->tex.w.addr = mlx_get_data_addr(ml_mlx->tex.w.img, \
+	&ml_mlx->tex.w.bits_per_pixel, &ml_mlx->tex.w.line_length, \
+	&ml_mlx->tex.w.endian);
+}
 
 int main(int argc, char **argv)
 {
 	t_map	map;
+	t_vars	ml_mlx;
 
 	// atexit(leak_check);
-
-	
 	if (argc != 2)
 		return (print_error("argument error", 1));
 	map_parsing(argv[1], &map);
-
-
-
-	t_vars	ml_mlx;
 	ml_mlx.map = &map;
 	ml_mlx_init(&ml_mlx);
-
-
-	// t_player player;
-	// ml_mlx.player = &player;
-	// find_player_pos(&ml_mlx);
-	// player_init(&ml_mlx);
-
-
-	// printf("INIT PART\n");
-
-	// t_tex texture;
-	// printf("T_TEX\n");
-	ml_mlx.tex.n.img = 0;
-	ml_mlx.tex.n.img = mlx_xpm_file_to_image(ml_mlx.mlx, ml_mlx.map->no_path, &ml_mlx.tex.n_width, &ml_mlx.tex.n_height);
-	ml_mlx.tex.n.addr = 0;
-	ml_mlx.tex.n.addr = mlx_get_data_addr(ml_mlx.tex.n.img, &ml_mlx.tex.n.bits_per_pixel, &ml_mlx.tex.n.line_length, &ml_mlx.tex.n.endian);
-	// printf("%p %p\n", ml_mlx.tex.n.img, ml_mlx.tex.n.addr);
-	ml_mlx.tex.s.img = mlx_xpm_file_to_image(ml_mlx.mlx, ml_mlx.map->so_path, &ml_mlx.tex.s_width, &ml_mlx.tex.s_height);
-	ml_mlx.tex.s.addr = mlx_get_data_addr(ml_mlx.tex.s.img, &ml_mlx.tex.s.bits_per_pixel, &ml_mlx.tex.s.line_length, &ml_mlx.tex.s.endian);
-	// printf("%p %p\n", ml_mlx.tex.s.img, ml_mlx.tex.s.addr);
-	ml_mlx.tex.e.img = mlx_xpm_file_to_image(ml_mlx.mlx, ml_mlx.map->ea_path, &ml_mlx.tex.e_width, &ml_mlx.tex.e_height);
-	ml_mlx.tex.e.addr = mlx_get_data_addr(ml_mlx.tex.e.img, &ml_mlx.tex.e.bits_per_pixel, &ml_mlx.tex.e.line_length, &ml_mlx.tex.e.endian);
-	// printf("%p %p\n", ml_mlx.tex.e.img, ml_mlx.tex.e.addr);
-	ml_mlx.tex.w.img = mlx_xpm_file_to_image(ml_mlx.mlx, ml_mlx.map->we_path, &ml_mlx.tex.w_width, &ml_mlx.tex.w_height);
-	ml_mlx.tex.w.addr = mlx_get_data_addr(ml_mlx.tex.w.img, &ml_mlx.tex.w.bits_per_pixel, &ml_mlx.tex.w.line_length, &ml_mlx.tex.w.endian);
-	// printf("%p %p\n", texture.w.img, texture.w.addr);
-	// ml_mlx.tex = &texture;
-
-
-
+	tex_img(&ml_mlx);
 	ml_mlx.keys = 0;
 	project_once(&ml_mlx, &map, &ml_mlx.player);
 	mlx_hook(ml_mlx.win, 2, 1L << 0, key_press_hook, &ml_mlx);
