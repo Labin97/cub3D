@@ -6,7 +6,7 @@
 /*   By: yim <yim@student.42seoul.kr>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/23 14:33:01 by minsulee          #+#    #+#             */
-/*   Updated: 2023/03/30 14:39:14by yim              ###   ########.fr       */
+/*   Updated: 2023/03/30 14:59:34 by yim              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,16 +116,18 @@ typedef struct s_projection
 void	projection_init(t_projection *projection, int x, t_player *player)
 {
 	projection->camera_x = 2 * (x - 1) / (double)SCREEN_WIDTH - 1;
-	projection->raydir_x = player->dir_x + player->plane_x * projection->camera_x;
-	projection->raydir_y = player->dir_y + player->plane_y * projection->camera_x;
+	projection->raydir_x = player->dir_x + player->plane_x \
+	* projection->camera_x;
+	projection->raydir_y = player->dir_y + player->plane_y \
+	* projection->camera_x;
 	projection->hit = 0;
 	projection->side = 0;
 	if (projection->raydir_x == 0)
-		projection->delta_dist_x = __DBL_MAX__;										//CAN WE USE THIS?
+		projection->delta_dist_x = __DBL_MAX__;
 	else
 		projection->delta_dist_x = fabs(1 / projection->raydir_x);
 	if (projection->raydir_y == 0)
-		projection->delta_dist_y = __DBL_MAX__;										//AND THIS?
+		projection->delta_dist_y = __DBL_MAX__;
 	else
 		projection->delta_dist_y = fabs(1 / projection->raydir_y);
 	projection->pos_x = player->pos_x;
@@ -139,22 +141,26 @@ void	projection_direction_set(t_projection *projection)
 	if (projection->raydir_x < 0)
 	{
 		projection->step_x = -1;
-		projection->side_dist_x = (projection->pos_x - projection->map_x) * projection->delta_dist_x;
+		projection->side_dist_x = (projection->pos_x - projection->map_x) * \
+		projection->delta_dist_x;
 	}
 	else
 	{
 		projection->step_x = 1;
-		projection->side_dist_x = (projection->map_x + 1.0 - projection->pos_x) * projection->delta_dist_x;
+		projection->side_dist_x = (projection->map_x + 1.0 - projection->pos_x) \
+		* projection->delta_dist_x;
 	}
 	if (projection->raydir_y < 0)
 	{
 		projection->step_y = -1;
-		projection->side_dist_y = (projection->pos_y - projection->map_y) * projection->delta_dist_y;
+		projection->side_dist_y = (projection->pos_y - projection->map_y) * \
+		projection->delta_dist_y;
 	}
 	else
 	{
 		projection->step_y = 1;
-		projection->side_dist_y = (projection->map_y + 1.0 - projection->pos_y) * projection->delta_dist_y;
+		projection->side_dist_y = (projection->map_y + 1.0 - projection->pos_y) \
+		* projection->delta_dist_y;
 	}
 }
 
@@ -200,20 +206,21 @@ void	projection_shoot(t_map *map, t_projection *projection)
 
 void	projection_height(t_projection *projection)
 {
-		projection->line_height = (int)(SCREEN_HEIGHT / projection->perp_wall_dist);
-
+		projection->line_height = (int)(SCREEN_HEIGHT / \
+		projection->perp_wall_dist);
 		//calculate lowest and highest pixel to fill in current stripe
-		projection->draw_start = -(projection->line_height) / 2 + SCREEN_HEIGHT / 2;
+		projection->draw_start = -(projection->line_height) / 2 \
+		+ SCREEN_HEIGHT / 2;
 		if (projection->draw_start < 0)
 			projection->draw_start = 0;
-		projection->draw_end = (projection->line_height) / 2 + SCREEN_HEIGHT / 2;
+		projection->draw_end = (projection->line_height) / 2 + \
+		SCREEN_HEIGHT / 2;
 		if (projection->draw_end >= SCREEN_HEIGHT)
 			projection->draw_end = SCREEN_HEIGHT - 1;
 }
 
 void	projection_side(t_projection *projection)
 {
-
 	if (projection->side == 1) // west east
 	{
 		if (projection->step_y < 0) //west
@@ -260,28 +267,30 @@ void	projection_texture(t_tex *tex, t_projection *projection)
 
 void	projection_draw(t_vars *ml_mlx, t_projection *projection, int x)
 {
-	int	tex_x;
-	int	tex_y;
+	int		tex_x;
+	int		tex_y;
+	int		color;
+	double	step;
+	double	tex_pos;
 
-	tex_x = projection->tex_width - (int)(projection->wall_x * projection->tex_width);
+	tex_x = projection->tex_width - (int)(projection->wall_x * \
+	projection->tex_width);
 	// if (x == SCREEN_WIDTH / 2)
 	// {
 	// 	printf("pos_x : %f, pos_y : %f, raydir_x : %f, raydir_y : %f, perp_wall_dist : %f, Wall_x : %f, TEX_wIDTH : %f, tex_x : %d\n", projection->pos_x, projection->pos_y, projection->raydir_x, projection->raydir_y, projection->perp_wall_dist, projection->wall_x, projection->tex_width, tex_x);
 	// 	printf("\n");
 	// }
-	int	color;
-	double step;
-	double texPos;
 
 
 	if (projection->side == 3 || projection->side == 0)
 		tex_x = projection->tex_width - tex_x - 1;
 	step = 1.0 * projection->tex_height / projection->line_height;
-	texPos = (projection->draw_start - (SCREEN_HEIGHT / 2) + projection->line_height / 2) * step;
+	tex_pos = (projection->draw_start - (SCREEN_HEIGHT / 2) + \
+		projection->line_height / 2) * step;
 	for (int y = projection->draw_start; y < projection->draw_end; y++)
 	{
-		tex_y = (int)(texPos) & (int)(projection->tex_height - 1);
-		texPos += step;
+		tex_y = (int)(tex_pos) & (int)(projection->tex_height - 1);
+		tex_pos += step;
 		color = projection->texture[(int) projection->tex_width * tex_y + tex_x];
 		// ml_mlx_put_pixel(&ml_mlx->data, x, y, projection->texture[(int)projection->tex_width * tex_y + tex_x]);
 		ml_mlx_put_pixel(&ml_mlx->data, x, y, color);
@@ -290,6 +299,10 @@ void	projection_draw(t_vars *ml_mlx, t_projection *projection, int x)
 
 int	project_once(t_vars *ml_mlx, t_map *map, t_player *player)
 {
+	char **worldMap = ml_mlx->map->map;
+	int x = 0, y = 0;
+	double pos_x = player->pos_x;
+	double pos_y = player->pos_y;
 
 	//1. x축 -1 ~ 1 보면서 거리 계산 : 1920(window_width) 만큼 scan
 	//2. 계산된 각각의 거리 저장하기
@@ -305,14 +318,10 @@ int	project_once(t_vars *ml_mlx, t_map *map, t_player *player)
 
 	t_projection projection;
 	
-	char **worldMap = ml_mlx->map->map;
 
-	double pos_x = player->pos_x;
 	// pos_x = 22; // test
-	double pos_y = player->pos_y;
 	// pos_y = 12; // test
 
-	int x = 0, y = 0;
 	while (x < SCREEN_WIDTH)
 	{
 		projection_init(&projection, x, player);
@@ -410,16 +419,16 @@ void	render_next_frame_key_wd(t_vars *vars)
 {
 	if (vars->keys & 8) // up
 	{
-		if(vars->map->map[(int)(vars->player.pos_y)][(int)(vars->player.pos_x + vars->player.dir_x / 8)] != '1')
+		if (vars->map->map[(int)(vars->player.pos_y)][(int)(vars->player.pos_x + vars->player.dir_x / 8)] != '1')
 			vars->player.pos_x += (vars->player.dir_x / 8);
-		if(vars->map->map[(int)(vars->player.pos_y + vars->player.dir_y / 8)][(int)(vars->player.pos_x)] != '1')
+		if (vars->map->map[(int)(vars->player.pos_y + vars->player.dir_y / 8)][(int)(vars->player.pos_x)] != '1')
 			vars->player.pos_y += (vars->player.dir_y / 8);
 	}
 	else if (vars->keys & 2) // down
 	{
-		if(vars->map->map[(int)(vars->player.pos_y)][(int)(vars->player.pos_x - vars->player.dir_x / 8)] != '1')
+		if (vars->map->map[(int)(vars->player.pos_y)][(int)(vars->player.pos_x - vars->player.dir_x / 8)] != '1')
 			vars->player.pos_x -= (vars->player.dir_x / 8);
-		if(vars->map->map[(int)(vars->player.pos_y - vars->player.dir_y / 8)][(int)(vars->player.pos_x)] != '1')
+		if (vars->map->map[(int)(vars->player.pos_y - vars->player.dir_y / 8)][(int)(vars->player.pos_x)] != '1')
 			vars->player.pos_y -= (vars->player.dir_y / 8);
 	}
 }
