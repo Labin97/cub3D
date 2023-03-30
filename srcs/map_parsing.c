@@ -19,27 +19,6 @@ void	init_t_map(t_map *map)
 	map->floor = -1;
 }
 
-// void	print_struct(t_map *map)
-// {
-// 	int	i;
-
-// 	printf("NO path = %s\n", map->no_path);
-// 	printf("SO path = %s\n", map->so_path);
-// 	printf("WE path = %s\n", map->we_path);
-// 	printf("EA path = %s\n", map->ea_path);
-// 	printf("ceiling = %d\n", map->ceiling);
-// 	printf("floor = %d\n", map->floor);
-// 	printf("height = %d\n", map->height);
-// 	printf("width = %d\n", map->width);
-// 	printf("start = %d\n", map->start);
-// 	i = 0;
-// 	while (map->map[i])
-// 	{
-// 		printf("map = %s\n", map->map[i]);
-// 		i++;
-// 	}
-// }
-
 void	check_map(t_map *map, int count, char *filename)
 {
 	int	fd;
@@ -119,6 +98,5 @@ void	map_parsing(char *filename, t_map *map)
 		free(line);
 	}
 	check_map(map, count, filename);
-	// print_struct(map);
 	close(fd);
 }

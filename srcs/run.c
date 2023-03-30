@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   run.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: minsulee <minsulee@student.42seoul.kr>     +#+  +:+       +#+        */
+/*   By: yim <yim@student.42seoul.kr>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/23 14:33:01 by minsulee          #+#    #+#             */
-/*   Updated: 2023/03/30 15:37:15 by minsulee         ###   ########.fr       */
+/*   Updated: 2023/03/30 17:21:35 by yim              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -507,7 +507,7 @@ int main(int argc, char **argv)
 	t_map	map;
 	t_vars	ml_mlx;
 
-	atexit(leak_check);
+	// atexit(leak_check);
 	if (argc != 2)
 		return (print_error("argument error", 1));
 	map_parsing(argv[1], &map);
