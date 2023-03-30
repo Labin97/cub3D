@@ -6,7 +6,7 @@
 /*   By: minsulee <minsulee@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/23 14:33:01 by minsulee          #+#    #+#             */
-/*   Updated: 2023/03/30 17:38:55 by minsulee         ###   ########.fr       */
+/*   Updated: 2023/03/30 17:41:01 by minsulee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,39 +68,6 @@ void	ml_mlx_floor(t_vars *vars, int color)
 		y++;
 	}
 }
-
-typedef struct s_projection
-{
-	double	pos_x;
-	double	pos_y;
-
-	double	camera_x;
-	double	raydir_x;
-	double	raydir_y;
-	double	delta_dist_x;
-	double	delta_dist_y;
-	int		hit;
-	int		side;
-	int		map_x;
-	int		map_y;
-
-	double	side_dist_x;
-	double	side_dist_y;
-
-	int		step_x;
-	int		step_y;
-
-	double	perp_wall_dist;
-
-	double	wall_x;
-
-	int		line_height;
-	int		draw_start;
-	int		draw_end;
-	double	tex_width;
-	double	tex_height;
-	int		*texture;
-}	t_projection;
 
 void	projection_init(t_projection *projection, int x, t_player *player)
 {
