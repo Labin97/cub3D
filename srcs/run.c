@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   run.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yim <yim@student.42seoul.kr>               +#+  +:+       +#+        */
+/*   By: minsulee <minsulee@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/23 14:33:01 by minsulee          #+#    #+#             */
-/*   Updated: 2023/03/30 17:21:35 by yim              ###   ########.fr       */
+/*   Updated: 2023/03/30 17:38:55 by minsulee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,8 @@
 
 void	player_init(t_vars *ml_mlx);
 void	find_player_pos(t_vars *ml_mlx);
+int		on_destroy(t_vars *vars);
+
 
 void	ml_mlx_put_pixel(t_data *data, int x, int y, int color)
 {
@@ -315,7 +317,7 @@ static void	ml_mlx_init(t_vars *ml_mlx)
 int	key_press_hook(int key, t_vars *vars)
 {
 	if (key == 53)
-		exit(0);
+		on_destroy(vars);
 	else if (key == 123 && !(vars->keys & 32))
 		vars->keys += 32;
 	else if (key == 124 && !(vars->keys & 16))
@@ -497,8 +499,18 @@ void	tex_img(t_vars *ml_mlx)
 	&ml_mlx->tex.w.endian);
 }
 
-static int	on_destroy(void)
+int	on_destroy(t_vars *vars)
 {
+	printf("destroying...\n");
+	free_all(vars->map);
+	mlx_destroy_image(vars->mlx, vars->tex.n.img);
+	mlx_destroy_image(vars->mlx, vars->tex.e.img);
+	mlx_destroy_image(vars->mlx, vars->tex.s.img);
+	mlx_destroy_image(vars->mlx, vars->tex.w.img);
+	mlx_destroy_image(vars->mlx, vars->data.img);
+	mlx_destroy_window(vars->mlx, vars->win);
+
+
 	exit(0);
 }
 
@@ -507,7 +519,7 @@ int main(int argc, char **argv)
 	t_map	map;
 	t_vars	ml_mlx;
 
-	// atexit(leak_check);
+	atexit(leak_check);
 	if (argc != 2)
 		return (print_error("argument error", 1));
 	map_parsing(argv[1], &map);
@@ -520,5 +532,5 @@ int main(int argc, char **argv)
 	mlx_hook(ml_mlx.win, 17, 0, on_destroy, &ml_mlx);
 	mlx_loop_hook(ml_mlx.mlx, render_next_frame, &ml_mlx);
 	mlx_loop(ml_mlx.mlx);
-	free_all(&map);
+	// free_all(&map);
 }
