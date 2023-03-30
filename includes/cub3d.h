@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: minsulee <minsulee@student.42seoul.kr>     +#+  +:+       +#+        */
+/*   By: yim <yim@student.42seoul.kr>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/20 14:53:12 by yim               #+#    #+#             */
-/*   Updated: 2023/03/30 11:42:05 by minsulee         ###   ########.fr       */
+/*   Updated: 2023/03/30 17:32:06 by yim              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,22 +61,18 @@ typedef struct s_data
 
 typedef struct s_tex
 {
-	// void	*n;
 	int		n_width;
 	int		n_height;
 	t_data	n;
 
-	// void	*s;
 	int		s_width;
 	int		s_height;
 	t_data	s;
 
-	// void	*e;
 	int		e_width;
 	int		e_height;
 	t_data	e;
 
-	// void	*w;
 	int		w_width;
 	int		w_height;
 	t_data	w;
@@ -87,20 +83,39 @@ typedef struct s_vars
 	void			*mlx;
 	void			*win;
 	struct s_data	data;
-	// double			rotate_x;
-	// double			rotate_y;
-	// double			rotate_z;
-	// int				width;
-	// int				height;
-	// int				scale;
-	// int				signal;
 	t_player		player;
 	t_map			*map;
 	int				keys;
-	// t_tex			*tex;
 	t_tex			tex;
 
 }				t_vars;
+
+typedef struct s_projection
+{
+	double	pos_x;
+	double	pos_y;
+	double	camera_x;
+	double	raydir_x;
+	double	raydir_y;
+	double	delta_dist_x;
+	double	delta_dist_y;
+	double	side_dist_x;
+	double	side_dist_y;
+	double	tex_width;
+	double	tex_height;
+	double	wall_x;
+	double	perp_wall_dist;
+	int		hit;
+	int		side;
+	int		map_x;
+	int		map_y;
+	int		step_x;
+	int		step_y;
+	int		line_height;
+	int		draw_start;
+	int		draw_end;
+	int		*texture;
+}	t_projection;
 
 // error
 int		print_error(char *str, int i);
