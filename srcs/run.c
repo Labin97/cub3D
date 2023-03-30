@@ -6,18 +6,17 @@
 /*   By: minsulee <minsulee@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/23 14:33:01 by minsulee          #+#    #+#             */
-/*   Updated: 2023/03/30 14:10:00 by minsulee         ###   ########.fr       */
+/*   Updated: 2023/03/30 14:13:05 by minsulee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
 
 #include "cub3d.h"
 
 #include <limits.h>
 
-
 void	player_init(t_vars *ml_mlx);
 void	find_player_pos(t_vars *ml_mlx);
-
 
 void	ml_mlx_put_pixel(t_data *data, int x, int y, int color)
 {
@@ -466,7 +465,7 @@ int	render_next_frame(t_vars *vars)
 {
 	if (vars->keys)
 	{
-		if (!((vars->keys & 0x8) && (vars->keys & 0x2)))
+		if (!((vars->keys & 8) && (vars->keys & 2)))
 			render_next_frame_key_wd(vars);
 		if (!((vars->keys & 32) && (vars->keys & 16)))
 			render_next_frame_key_ad(vars);
