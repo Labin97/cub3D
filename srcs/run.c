@@ -560,7 +560,6 @@ int main(int argc, char **argv)
 	ml_mlx.map = &map;
 	ml_mlx_init(&ml_mlx);
 	tex_img(&ml_mlx);
-	ml_mlx.keys = 0;
 	project_once(&ml_mlx, &map, &ml_mlx.player);
 	mlx_hook(ml_mlx.win, 2, 1L << 0, key_press_hook, &ml_mlx);
 	mlx_hook(ml_mlx.win, 3, 1L << 1, key_release_hook, &ml_mlx);
