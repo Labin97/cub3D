@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   run.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: minsulee <minsulee@student.42seoul.kr>     +#+  +:+       +#+        */
+/*   By: yim <yim@student.42seoul.kr>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/23 14:33:01 by minsulee          #+#    #+#             */
-/*   Updated: 2023/03/30 13:45:50 by minsulee         ###   ########.fr       */
+/*   Updated: 2023/03/30 13:53:11 by yim              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,10 +14,8 @@
 
 #include <limits.h>
 
-
 void	player_init(t_vars *ml_mlx);
 void	find_player_pos(t_vars *ml_mlx);
-
 
 void	ml_mlx_put_pixel(t_data *data, int x, int y, int color)
 {
