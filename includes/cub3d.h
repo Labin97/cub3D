@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yim <yim@student.42seoul.kr>               +#+  +:+       +#+        */
+/*   By: minsulee <minsulee@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/20 14:53:12 by yim               #+#    #+#             */
-/*   Updated: 2023/03/29 19:38:11 by yim              ###   ########.fr       */
+/*   Updated: 2023/03/30 11:42:05 by minsulee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,10 +94,11 @@ typedef struct s_vars
 	// int				height;
 	// int				scale;
 	// int				signal;
-	t_player		*player;
+	t_player		player;
 	t_map			*map;
 	int				keys;
-	t_tex			*tex;
+	// t_tex			*tex;
+	t_tex			tex;
 
 }				t_vars;
 
