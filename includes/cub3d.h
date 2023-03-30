@@ -6,7 +6,7 @@
 /*   By: yim <yim@student.42seoul.kr>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/20 14:53:12 by yim               #+#    #+#             */
-/*   Updated: 2023/03/30 19:32:13 by yim              ###   ########.fr       */
+/*   Updated: 2023/03/30 19:42:43 by yim              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -135,7 +135,7 @@ void	init_color(t_map *map, char *line, char c);
 
 // init_map
 void	init_map(t_map *map, char *line, int count);
-void	make_map(t_map *map, char *filename, int fd);
+void	make_map(t_map *map, int fd);
 void	check_surround_wall(t_map *map);
 
 // projection
@@ -156,7 +156,7 @@ void	ml_mlx_put_pixel(t_data *data, int x, int y, int color);
 //main
 void	ml_mlx_init(t_vars *ml_mlx);
 void	texture_set(t_vars *ml_mlx);
-int		project_once(t_vars *ml_mlx, t_map *map, t_player *player);
+int		project_once(t_vars *ml_mlx, t_player *player);
 int		render_next_frame(t_vars *vars);
 int		destroy(t_vars *vars);
 

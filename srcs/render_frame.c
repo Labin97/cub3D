@@ -6,7 +6,7 @@
 /*   By: yim <yim@student.42seoul.kr>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/30 19:29:01 by yim               #+#    #+#             */
-/*   Updated: 2023/03/30 19:30:49 by yim              ###   ########.fr       */
+/*   Updated: 2023/03/30 19:43:07 by yim              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,7 +86,7 @@ int	render_next_frame(t_vars *vars)
 			render_next_frame_key_ad(vars);
 		if (!((vars->keys & 4) && (vars->keys & 1)))
 			render_next_frame_key_arrow_lr(vars);
-		project_once(vars, vars->map, &vars->player);
+		project_once(vars, &vars->player);
 		if (fabs(vars->player.rotation) >= 6.283185)
 			vars->player.rotation = 0;
 	}

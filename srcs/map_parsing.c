@@ -6,7 +6,7 @@
 /*   By: yim <yim@student.42seoul.kr>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/21 17:00:24 by yim               #+#    #+#             */
-/*   Updated: 2023/03/30 19:37:36 by yim              ###   ########.fr       */
+/*   Updated: 2023/03/30 19:41:47 by yim              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ void	init_t_map(t_map *map)
 	map->floor = -1;
 }
 
-void	check_map(t_map *map, int count, char *filename)
+void	check_map(t_map *map, char *filename)
 {
 	int	fd;
 
@@ -32,7 +32,7 @@ void	check_map(t_map *map, int count, char *filename)
 	fd = open(filename, O_RDONLY);
 	if (fd < 0)
 		exit_error("file open error", 1, map);
-	make_map(map, filename, fd);
+	make_map(map, fd);
 	close(fd);
 	check_surround_wall(map);
 }
@@ -97,6 +97,6 @@ void	map_parsing(char *filename, t_map *map)
 		count++;
 		free(line);
 	}
-	check_map(map, count, filename);
+	check_map(map, filename);
 	close(fd);
 }

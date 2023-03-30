@@ -6,7 +6,7 @@
 /*   By: yim <yim@student.42seoul.kr>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/23 14:33:01 by minsulee          #+#    #+#             */
-/*   Updated: 2023/03/30 19:35:13 by yim              ###   ########.fr       */
+/*   Updated: 2023/03/30 19:42:33 by yim              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ int	main(int argc, char **argv)
 	ml_mlx.map = &map;
 	ml_mlx_init(&ml_mlx);
 	texture_set(&ml_mlx);
-	project_once(&ml_mlx, &map, &ml_mlx.player);
+	project_once(&ml_mlx, &ml_mlx.player);
 	mlx_hook(ml_mlx.win, 2, 1L << 0, key_press_hook, &ml_mlx);
 	mlx_hook(ml_mlx.win, 3, 1L << 1, key_release_hook, &ml_mlx);
 	mlx_hook(ml_mlx.win, 17, 0, destroy, &ml_mlx);

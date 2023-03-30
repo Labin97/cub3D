@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   project_once.c                                     :+:      :+:    :+:   */
+/*   projection.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: yim <yim@student.42seoul.kr>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/30 19:15:18 by yim               #+#    #+#             */
-/*   Updated: 2023/03/30 19:17:54 by yim              ###   ########.fr       */
+/*   Updated: 2023/03/30 19:42:36 by yim              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,8 +63,6 @@ void	projection_direction_set(t_projection *projection)
 
 void	projection_shoot(t_map *map, t_projection *projection)
 {
-	int	hit;
-
 	while (projection->hit == 0)
 	{
 		if (projection->side_dist_x < projection->side_dist_y)
@@ -101,7 +99,7 @@ void	projection_point(t_projection *projection)
 	projection->wall_x -= floor(projection->wall_x);
 }
 
-int	project_once(t_vars *ml_mlx, t_map *map, t_player *player)
+int	project_once(t_vars *ml_mlx, t_player *player)
 {
 	t_projection	projection;
 	int				x;

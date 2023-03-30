@@ -6,7 +6,7 @@
 /*   By: yim <yim@student.42seoul.kr>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/21 16:59:58 by yim               #+#    #+#             */
-/*   Updated: 2023/03/30 13:49:30 by yim              ###   ########.fr       */
+/*   Updated: 2023/03/30 19:41:01 by yim              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ int	check_blank_line(char *line)
 	return (0);
 }
 
-void	make_map(t_map *map, char *filename, int fd)
+void	make_map(t_map *map, int fd)
 {
 	char	*line;
 	int		count;
