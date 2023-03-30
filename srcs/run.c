@@ -6,7 +6,7 @@
 /*   By: minsulee <minsulee@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/23 14:33:01 by minsulee          #+#    #+#             */
-/*   Updated: 2023/03/30 17:41:01 by minsulee         ###   ########.fr       */
+/*   Updated: 2023/03/30 18:10:07 by minsulee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 
 void	player_init(t_vars *ml_mlx);
 void	find_player_pos(t_vars *ml_mlx);
-int		on_destroy(t_vars *vars);
+int		destroy(t_vars *vars);
 
 
 void	ml_mlx_put_pixel(t_data *data, int x, int y, int color)
@@ -143,7 +143,7 @@ void	projection_shoot(t_map *map, t_projection *projection)
 	}
 }
 
-void	projection_point(t_projection *projection)
+void	projection_point(t_projection *projection) //perp wall dist : perpendicular wall distance
 {
 	if (projection->side == 0)
 		projection->perp_wall_dist = \
@@ -164,8 +164,8 @@ void	projection_height(t_projection *projection)
 {
 	projection->line_height = (int)(SCREEN_HEIGHT / \
 	projection->perp_wall_dist);
-	projection->draw_start = -(projection->line_height) / 2 \
-	+ SCREEN_HEIGHT / 2;
+	projection->draw_start = -(projection->line_height) / 2 + \
+	SCREEN_HEIGHT / 2;
 	if (projection->draw_start < 0)
 		projection->draw_start = 0;
 	projection->draw_end = (projection->line_height) / 2 + \
@@ -284,7 +284,7 @@ static void	ml_mlx_init(t_vars *ml_mlx)
 int	key_press_hook(int key, t_vars *vars)
 {
 	if (key == 53)
-		on_destroy(vars);
+		destroy(vars);
 	else if (key == 123 && !(vars->keys & 32))
 		vars->keys += 32;
 	else if (key == 124 && !(vars->keys & 16))
@@ -414,6 +414,7 @@ void	find_player_pos(t_vars *ml_mlx)
 			{
 				ml_mlx->player.pos_x = j + 0.501;
 				ml_mlx->player.pos_y = i + 0.501;
+				// 0.501인 이유 : 0.5로 하니까 단위가 딱맞아버려서 벽뚫어버림 그냥 참고하시고 지워도 됩니다
 				if (ml_mlx->map->map[i][j] == 'N')
 					ml_mlx->player.rotation = 0;
 				else if (ml_mlx->map->map[i][j] == 'S')
@@ -422,6 +423,7 @@ void	find_player_pos(t_vars *ml_mlx)
 					ml_mlx->player.rotation = M_PI * 1.5;
 				else if (ml_mlx->map->map[i][j] == 'E')
 					ml_mlx->player.rotation = M_PI / 2;
+				//Rotation바꾸는걸로조금수정했음
 			}
 		}
 	}
@@ -440,12 +442,24 @@ void leak_check(void)
 	system("leaks cub3D");
 }
 
-void	tex_img(t_vars *ml_mlx)
+void	texture_loading_init(t_vars *ml_mlx)
 {
 	ml_mlx->tex.n.img = 0;
+	ml_mlx->tex.n.addr = 0;
+	ml_mlx->tex.w.img = 0;
+	ml_mlx->tex.w.addr = 0;
+	ml_mlx->tex.e.img = 0;
+	ml_mlx->tex.e.addr = 0;
+	ml_mlx->tex.s.img = 0;
+	ml_mlx->tex.s.addr = 0;
+}
+
+void	texture_loading(t_vars *ml_mlx)
+{
+	// TEST PRINT
+	printf("TEXTURE LOADING START\n");
 	ml_mlx->tex.n.img = mlx_xpm_file_to_image(ml_mlx->mlx, \
 	ml_mlx->map->no_path, &ml_mlx->tex.n_width, &ml_mlx->tex.n_height);
-	ml_mlx->tex.n.addr = 0;
 	ml_mlx->tex.n.addr = mlx_get_data_addr(ml_mlx->tex.n.img, \
 	&ml_mlx->tex.n.bits_per_pixel, &ml_mlx->tex.n.line_length, \
 	&ml_mlx->tex.n.endian);
@@ -464,11 +478,39 @@ void	tex_img(t_vars *ml_mlx)
 	ml_mlx->tex.w.addr = mlx_get_data_addr(ml_mlx->tex.w.img, \
 	&ml_mlx->tex.w.bits_per_pixel, &ml_mlx->tex.w.line_length, \
 	&ml_mlx->tex.w.endian);
+	// TEST PRINT
+	printf("TEXTURE LOADING FINISHED\n");\
+	// 이거 써서 테스트해봤는데
+	// 아니 그냥 텍스쳐 로딩 실패하면 mlx가 그냥 세그폴트 떠버림 우리가 어케할수가없음 어캄??
 }
 
-int	on_destroy(t_vars *vars)
+void	texture_check(t_vars *ml_mlx)
 {
-	printf("destroying...\n");
+	//TEST CODE ...
+	print_error("texture loading error", 1);
+	// 님 근데 이거 print_error 에 int i 안쓰는거같음
+	//... TEST CODE
+
+	if (ml_mlx->tex.n.img == 0 || ml_mlx->tex.n.addr == 0 || \
+	ml_mlx->tex.e.img == 0 || ml_mlx->tex.e.addr == 0 || \
+	ml_mlx->tex.s.img == 0 || ml_mlx->tex.s.addr == 0 || \
+	ml_mlx->tex.w.img == 0 || ml_mlx->tex.w.addr == 0)
+	{
+		free_all(ml_mlx->map);
+		exit(0);
+	}
+}
+
+void	texture_set(t_vars *ml_mlx)
+{
+	texture_loading_init(ml_mlx);
+	texture_loading(ml_mlx);
+	texture_check(ml_mlx);
+}
+
+int	destroy(t_vars *vars)
+{
+	// printf("destroying...\n");
 	free_all(vars->map);
 	mlx_destroy_image(vars->mlx, vars->tex.n.img);
 	mlx_destroy_image(vars->mlx, vars->tex.e.img);
@@ -476,8 +518,6 @@ int	on_destroy(t_vars *vars)
 	mlx_destroy_image(vars->mlx, vars->tex.w.img);
 	mlx_destroy_image(vars->mlx, vars->data.img);
 	mlx_destroy_window(vars->mlx, vars->win);
-
-
 	exit(0);
 }
 
@@ -492,11 +532,12 @@ int main(int argc, char **argv)
 	map_parsing(argv[1], &map);
 	ml_mlx.map = &map;
 	ml_mlx_init(&ml_mlx);
-	tex_img(&ml_mlx);
+	texture_set(&ml_mlx);
+	// tex_img(&ml_mlx);
 	project_once(&ml_mlx, &map, &ml_mlx.player);
 	mlx_hook(ml_mlx.win, 2, 1L << 0, key_press_hook, &ml_mlx);
 	mlx_hook(ml_mlx.win, 3, 1L << 1, key_release_hook, &ml_mlx);
-	mlx_hook(ml_mlx.win, 17, 0, on_destroy, &ml_mlx);
+	mlx_hook(ml_mlx.win, 17, 0, destroy, &ml_mlx);
 	mlx_loop_hook(ml_mlx.mlx, render_next_frame, &ml_mlx);
 	mlx_loop(ml_mlx.mlx);
 	// free_all(&map);
