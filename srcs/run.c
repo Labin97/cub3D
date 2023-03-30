@@ -6,7 +6,7 @@
 /*   By: minsulee <minsulee@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/23 14:33:01 by minsulee          #+#    #+#             */
-/*   Updated: 2023/03/30 13:45:50 by minsulee         ###   ########.fr       */
+/*   Updated: 2023/03/30 14:10:00 by minsulee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -264,7 +264,7 @@ void	projection_draw(t_vars *ml_mlx, t_projection *projection, int x)
 	int	tex_x;
 	int	tex_y;
 
-	tex_x = (int)(projection->wall_x * projection->tex_width);
+	tex_x = projection->tex_width - (int)(projection->wall_x * projection->tex_width);
 	// if (x == SCREEN_WIDTH / 2)
 	// {
 	// 	printf("pos_x : %f, pos_y : %f, raydir_x : %f, raydir_y : %f, perp_wall_dist : %f, Wall_x : %f, TEX_wIDTH : %f, tex_x : %d\n", projection->pos_x, projection->pos_y, projection->raydir_x, projection->raydir_y, projection->perp_wall_dist, projection->wall_x, projection->tex_width, tex_x);
@@ -567,30 +567,6 @@ int main(int argc, char **argv)
 	// printf("%p %p\n", texture.w.img, texture.w.addr);
 	// ml_mlx.tex = &texture;
 
-
-
-
-	// texture.n.img = 0;
-	// texture.n.img = mlx_xpm_file_to_image(ml_mlx.mlx, ml_mlx.map->no_path, &texture.n_width, &texture.n_height);
-	// texture.n.addr = 0;
-	// texture.n.addr = mlx_get_data_addr(texture.n.img, &texture.n.bits_per_pixel, &texture.n.line_length, &texture.n.endian);
-	// // printf("%p %p\n", texture.n.img, texture.n.addr);
-	// texture.s.img = mlx_xpm_file_to_image(ml_mlx.mlx, ml_mlx.map->so_path, &texture.s_width, &texture.s_height);
-	// texture.s.addr = mlx_get_data_addr(texture.s.img, &texture.s.bits_per_pixel, &texture.s.line_length, &texture.s.endian);
-	// // printf("%p %p\n", texture.s.img, texture.s.addr);
-	// texture.e.img = mlx_xpm_file_to_image(ml_mlx.mlx, ml_mlx.map->ea_path, &texture.e_width, &texture.e_height);
-	// texture.e.addr = mlx_get_data_addr(texture.e.img, &texture.e.bits_per_pixel, &texture.e.line_length, &texture.e.endian);
-	// // printf("%p %p\n", texture.e.img, texture.e.addr);
-	// texture.w.img = mlx_xpm_file_to_image(ml_mlx.mlx, ml_mlx.map->we_path, &texture.w_width, &texture.w_height);
-	// texture.w.addr = mlx_get_data_addr(texture.w.img, &texture.w.bits_per_pixel, &texture.w.line_length, &texture.w.endian);
-
-	// printf("NOT INIT PART\n");
-	// printf("rotation : %f\n", player.rotation);
-	// printf("pos_x pos_y : %f :: %f \n", player.pos_x, player.pos_y);
-	// printf("dir_x dir_y : %f :: %f \n", player.dir_x, player.dir_y);
-	// printf("plane_x plane_y : %f :: %f \n", player.plane_x, player.plane_y);
-	// t_signal ml_sign;
-	// ml_mlx.keys = &ml_sign;
 
 
 	ml_mlx.keys = 0;
