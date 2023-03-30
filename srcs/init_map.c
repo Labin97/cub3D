@@ -6,7 +6,7 @@
 /*   By: yim <yim@student.42seoul.kr>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/21 16:59:58 by yim               #+#    #+#             */
-/*   Updated: 2023/03/24 17:19:55 by yim              ###   ########.fr       */
+/*   Updated: 2023/03/30 13:49:30 by yim              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -122,10 +122,10 @@ void	init_map(t_map *map, char *line, int count)
 			line[i] != ' ' && line[i] != 'N' && line[i] != 'S' && \
 			line[i] != 'E' && line[i] != 'W')
 			exit_line_error("map error", 1, line, map);
-		if ((line[i] == 'N' || line[i] == 'S' || line[i] == 'E' && \
+		if ((line[i] == 'N' || line[i] == 'S' || line[i] == 'E' || \
 			line[i] == 'W' ) && map->check_player == 1)
 			exit_line_error("map error", 1, line, map);
-		if (line[i] == 'N' || line[i] == 'S' || line[i] == 'E' && \
+		if (line[i] == 'N' || line[i] == 'S' || line[i] == 'E' || \
 			line[i] == 'W')
 			map->check_player = 1;
 		i++;
