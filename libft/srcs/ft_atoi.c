@@ -3,35 +3,86 @@
 /*                                                        :::      ::::::::   */
 /*   ft_atoi.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: eujeong <eujeong@student.42.fr>            +#+  +:+       +#+        */
+/*   By: yim <yim@student.42seoul.kr>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/07/11 12:52:28 by eujeong           #+#    #+#             */
-/*   Updated: 2022/08/03 15:41:56 by eujeong          ###   ########.fr       */
+/*   Created: 2022/07/07 17:47:20 by minsulee          #+#    #+#             */
+/*   Updated: 2023/03/31 15:54:18 by yim              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+static int	sign_detector(const char *str)
+{
+	int	sign;
+
+	sign = 0;
+	if (*str == '-')
+	{
+		sign = -1;
+	}
+	else if (*str == '+')
+	{
+		sign = +1;
+	}
+	return (sign);
+}
+
+static int	white_space(const char *str)
+{
+	if (*str == '\t' || *str == '\n'
+		|| *str == '\v' || *str == '\f'
+		|| *str == '\r' || *str == ' ')
+		return (1);
+	else
+		return (0);
+}
+
+static long long	over_detect(long long val, char c, int sign)
+{
+	long long	ll_d10;
+
+	ll_d10 = 214748364;
+	if (val > ll_d10)
+	{
+		if (sign == 1)
+			return (-1);
+		else
+			return (-1);
+	}
+	else if (val == ll_d10 && (c - '0') >= 8)
+	{
+		if (c - '0' == 9)
+		{	
+			if (sign == -1)
+				return (-1);
+			else
+				return (-1);
+		}
+		else if (sign == 1)
+			return (-1);
+	}
+	return (1);
+}
 
 int	ft_atoi(const char *str)
 {
-	long long	num;
-	long long	sign;
-	size_t		i;
+	long long	value;
+	int			sign;
 
-	i = 0;
-	while (str[i] == '\t' || str[i] == '\n' || str[i] == '\v'
-		|| str[i] == '\f' || str[i] == '\r' || str[i] == ' ')
-		i++;
 	sign = 1;
-	if (str[i] == '-')
-		sign = -1;
-	if (str[i] == '+' || str[i] == '-')
-		i++;
-	num = 0;
-	while (ft_isdigit(str[i]))
+	value = 0;
+	while (white_space(str) != 0)
+		str++;
+	if (*str == '-' || *str == '+')
 	{
-		num = num * 10 + (long long)(str[i] - '0');
-		i++;
+		sign = sign_detector(str);
+		str++;
 	}
-	return ((int)(num * sign));
+	while (*str >= '0' && *str <= '9')
+	{
+		if (over_detect(value, *str, sign) != 1)
+			return (over_detect(value, *str, sign));
+		value = value * 10 + (*str - '0');
+		str++;
+	}
+	return (sign * value);
 }
