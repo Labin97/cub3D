@@ -6,7 +6,7 @@
 /*   By: yim <yim@student.42seoul.kr>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/21 17:00:24 by yim               #+#    #+#             */
-/*   Updated: 2023/03/30 19:41:47 by yim              ###   ########.fr       */
+/*   Updated: 2023/03/31 17:22:48 by yim              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@ void	init_t_map(t_map *map)
 void	check_map(t_map *map, char *filename)
 {
 	int	fd;
+	int	i;
 
 	if (map->check_player == 0)
 		exit_error("player error", 1, map);
@@ -29,6 +30,15 @@ void	check_map(t_map *map, char *filename)
 	if (!(map->map))
 		exit_error("malloc error", 1, map);
 	ft_memset(map->map, 0, sizeof(char *) * (map->height + 1));
+	i = 0;
+	while (map->height > i)
+	{
+		map->map[i] = (char *)malloc(sizeof(char) * (map->width + 1));
+		if (!(map->map[i]))
+			exit_error("malloc error", 1, map);
+		ft_memset(map->map[i], ' ', sizeof(char) * (map->width + 1));
+		i++;
+	}
 	fd = open(filename, O_RDONLY);
 	if (fd < 0)
 		exit_error("file open error", 1, map);

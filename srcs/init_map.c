@@ -6,7 +6,7 @@
 /*   By: yim <yim@student.42seoul.kr>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/21 16:59:58 by yim               #+#    #+#             */
-/*   Updated: 2023/03/30 19:41:01 by yim              ###   ########.fr       */
+/*   Updated: 2023/03/31 17:27:27 by yim              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,9 +43,8 @@ void	make_map(t_map *map, int fd)
 		{
 			if (check_blank_line(line))
 				exit_line_error("line blank error", 1, line, map);
-			map->map[i] = ft_strdup(line);
-			if (map->map[i] == NULL)
-				exit_line_error("malloc error", 1, line, map);
+			ft_memcpy(map->map[i], line, ft_strlen(line));
+			map->map[i][map->width] = '\0';
 			i++;
 		}
 		count++;
