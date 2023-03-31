@@ -3,26 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   texture_set.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yim <yim@student.42seoul.kr>               +#+  +:+       +#+        */
+/*   By: minsulee <minsulee@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/30 19:13:30 by yim               #+#    #+#             */
-/*   Updated: 2023/03/30 19:52:54 by yim              ###   ########.fr       */
+/*   Updated: 2023/03/31 14:04:57 by minsulee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
-
-void	texture_check(t_vars *ml_mlx)
-{
-	if (ml_mlx->tex.n.img == 0 || ml_mlx->tex.n.addr == 0 || \
-	ml_mlx->tex.e.img == 0 || ml_mlx->tex.e.addr == 0 || \
-	ml_mlx->tex.s.img == 0 || ml_mlx->tex.s.addr == 0 || \
-	ml_mlx->tex.w.img == 0 || ml_mlx->tex.w.addr == 0)
-	{
-		free_all(ml_mlx->map);
-		exit(0);
-	}
-}
 
 void	texture_loading2(t_vars *ml_mlx)
 {
@@ -65,21 +53,7 @@ void	texture_loading(t_vars *ml_mlx)
 	texture_loading2(ml_mlx);
 }
 
-void	texture_loading_init(t_vars *ml_mlx)
-{
-	ml_mlx->tex.n.img = 0;
-	ml_mlx->tex.n.addr = 0;
-	ml_mlx->tex.w.img = 0;
-	ml_mlx->tex.w.addr = 0;
-	ml_mlx->tex.e.img = 0;
-	ml_mlx->tex.e.addr = 0;
-	ml_mlx->tex.s.img = 0;
-	ml_mlx->tex.s.addr = 0;
-}
-
 void	texture_set(t_vars *ml_mlx)
 {
-	texture_loading_init(ml_mlx);
 	texture_loading(ml_mlx);
-	texture_check(ml_mlx);
 }
