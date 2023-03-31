@@ -2,6 +2,7 @@ NAME 		= cub3D
 CFLAGS		= -Wall -Wextra -Werror
 INCLUDES	= includes
 mlx_LIB 	= -lmlx -framework OpenGL -framework AppKit
+
 SOURCES 	= srcs/init_color.c\
 			srcs/init_texture.c\
 			srcs/error.c\
@@ -15,6 +16,9 @@ SOURCES 	= srcs/init_color.c\
 			srcs/texture_set.c\
 			srcs/render_frame.c\
 			srcs/hook.c
+
+O_HEADER		= includes/cub3d.h
+
 B_SOURCES	= b_srcs/init_color_bonus.c\
 			b_srcs/init_texture_bonus.c\
 			b_srcs/error_bonus.c\
@@ -29,13 +33,17 @@ B_SOURCES	= b_srcs/init_color_bonus.c\
 			b_srcs/render_frame_bonus.c\
 			b_srcs/hook_bonus.c
 
+B_HEADER		= includes/cub3d_bonus.h
+
 OBJS = $(SOURCES:.c=.o)
 B_OBJS = $(B_SOURCES:.c=.o)
 
 ifdef WITH_BONUS
 	OBJECTS = $(B_OBJS)
+	HEADER	= $(B_HEADER)
 else
 	OBJECTS = $(OBJS)
+	HEADER	= $(O_HEADER)
 endif
 
 all : $(NAME)
@@ -47,8 +55,8 @@ $(NAME) : $(OBJECTS)
 bonus :
 	@ make WITH_BONUS=1 all
 
-%.o : %.c
-	cc $(CFLAGS) -Ilibft/includes -I$(INCLUDES) -c $^ -o $@
+%.o : %.c $(HEADER)
+	cc $(CFLAGS) -Ilibft/includes -I$(INCLUDES) -c $< -o $@
 
 clean :
 	make clean -C libft
