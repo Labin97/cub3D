@@ -33,3 +33,4 @@ C 225,30,0
 맵을 그리는 방법은 raycasting으로 2차원 맵을 3차원처럼 보이게 만드는 기술이다.
 raycasting은 Scott D Roth의 'Ray Casting for Modeling Solids'라는 제목의 논문에서 처음 사용되었고,
 울펜슈타인 3D라는 게임으로 가장 잘 알려진 방법이다. 이는 수학적 계산의 부하를 줄여주며 2D를 마치 3D같은 사실감을 준다.
+<img width="1902" alt="image" src="https://github.com/Labin97/cub3D/assets/109407187/5b28b36d-82a4-4bf4-a6b1-fe1fce8d1799">
