@@ -68,7 +68,7 @@ raycasting 은 스크린의 모든 수직선에 대해 계산(calculation)만 �
 
 * DDA 알고리즘은 2차원 그리드를 지나가는 선(line)이 어떤 네모칸과 부딪히는지 찾을 때 일반적으로 사용되는, 속도가 빠른 알고리즘입니다. 그래서 이 알고리즘을 사용해서 광선이 맵에서 어떤 네모칸이랑 부딪히는지 찾아낼 수 있고, 벽에 부딪힌 것이 확인되면 이 알고리즘은 중단됩니다.
 
-
+![image](https://github.com/Labin97/cub3D/assets/109407187/2652c442-8c2f-4a12-85cb-dc6cf6b12977)
 또한 벡터와 카메라를 이용하여 시야각을 표현한다.
 
 
@@ -76,4 +76,3 @@ raycasting 은 스크린의 모든 수직선에 대해 계산(calculation)만 �
 -----
 <https://github.com/365kim/raycasting_tutorial/tree/master>
 
-![image](https://github.com/Labin97/cub3D/assets/109407187/2652c442-8c2f-4a12-85cb-dc6cf6b12977)
