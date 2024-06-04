@@ -72,4 +72,8 @@ raycasting 은 스크린의 모든 수직선에 대해 계산(calculation)만 �
 또한 벡터와 카메라를 이용하여 시야각을 표현한다.
 
 
+참조
+-----
+<https://github.com/365kim/raycasting_tutorial/tree/master>
+
 ![image](https://github.com/Labin97/cub3D/assets/109407187/2652c442-8c2f-4a12-85cb-dc6cf6b12977)
