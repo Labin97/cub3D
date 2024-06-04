@@ -1,3 +1,6 @@
+# Cub3D
+
+'''
 NO ./path_to_the_north_texture
 SO ./path_to_the_south_texture
 WE ./path_to_the_west_texture
@@ -20,9 +23,12 @@ C 225,30,0
 11000001110101011111011110N0111
 11110111 1110101 101111010001
 11111111 1111111 111111111111
+'''
+
 
 지도가 주어져 있으면 지도의 유효성을 검사하고, 각각의 이미지에 맞게 동서남북 벽의 이미지를 보여준다.
 이후 천장과 바닥의 색을 주어진 값과 맞게 표현한다.
+
 
 맵을 그리는 방법은 raycasting으로 2차원 맵을 3차원처럼 보이게 만드는 기술이다.
 raycasting은 Scott D Roth의 'Ray Casting for Modeling Solids'라는 제목의 논문에서 처음 사용되었고,
